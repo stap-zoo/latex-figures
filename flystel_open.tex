@@ -1,0 +1,43 @@
+\begin{tikzpicture}[
+    node distance=0.5cm and 1.5cm, 
+    sbox/.append style={bbox={0.8cm}{0.8cm}},
+    %state/.append style={minimum size=0.5cm},
+]
+
+    \node (x) at (0,0) {$x$};
+
+    \node[MINUS, below=of x] (m1) {};
+    \node[sbox, right=of m1, fill=typeone] (qg) {$\Qgamma$};
+
+    \node[right=of qg] (z1) {};
+
+    \node (y) at (z1 |- x) {$y$};
+
+    \node[sbox, below=of qg, fill=typetwo] (e) {$x^{\frac{1}{\alpha}}$};
+
+    \node[MINUS] (m2) at (z1 |- e) {};
+
+    \node[sbox, below=of e, fill=typeone] (qd) {$\Qdelta$};
+    \node[PLUS, left=of qd] (p) {};
+
+    \node (z2) at (m2 |- qd) {};
+
+    \node[below=of p] (u) {$u$};
+    \node (v) at (z2 |- u) {$v$};
+
+    \draw[-latex] (x.south) -- (m1.north);
+    \draw[-latex] (y.south) -- ($(y.south |- qg)$) -- (qg.east);
+    \draw[-latex] (qg.west) -- (m1.east);
+
+    \draw[-latex] (m1.south) -- ($(m1.south |- e)$) -- (e.west);
+    \draw[-latex] (m1.south) -- (p.north);
+
+    \draw[-latex] (y.south) -- (m2.north);
+    \draw[-latex] (e.east) -- (m2.west);
+
+    \draw[-latex] (m2.south) -- ($(m2.south |- qd)$) -- (qd.east);
+    \draw[-latex] (qd.west) -- (p.east);
+    \draw[-latex] (m2.south) -- (v.north);
+
+    \draw[-latex] (p.south) -- (u.north);
+\end{tikzpicture}

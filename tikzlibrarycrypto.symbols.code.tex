@@ -1,0 +1,114 @@
+\usetikzlibrary{fit, calc, arrows.meta, positioning, decorations.pathreplacing}
+
+%%% ================================================================
+%%% OPERATORS  (small inline operation nodes)
+%%% ================================================================
+
+\tikzset{
+  op base/.style={draw, minimum size=0.35cm, inner sep=0pt},
+  NOOP/.style={op base, draw=none, fill=none,},
+  %% XOR: circle with a cross
+  XOR/.style={op base, circle,
+    append after command={
+      [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
+      (\tikzlastnode.north) edge (\tikzlastnode.south)
+      (\tikzlastnode.east)  edge (\tikzlastnode.west)}},
+  %% AND: circle with x (boolean AND)
+  AND/.style={op base, circle,
+    append after command={
+      [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
+      (\tikzlastnode.north west) edge (\tikzlastnode.south east)
+      (\tikzlastnode.north east) edge (\tikzlastnode.south west)}},
+  %% PLUS: square with + (use for any field/modular addition)
+  PLUS/.style={op base, rectangle,
+    append after command={
+      [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
+      (\tikzlastnode.north) edge (\tikzlastnode.south)
+      (\tikzlastnode.east)  edge (\tikzlastnode.west)}},
+  %% MINUS: square with -
+  MINUS/.style={op base, rectangle,
+    append after command={
+      [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
+      (\tikzlastnode.east) edge (\tikzlastnode.west)}},
+  %% MUL: square with x
+  MUL/.style={op base, rectangle,
+    append after command={
+      [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
+      (\tikzlastnode.north west) edge (\tikzlastnode.south east)
+      (\tikzlastnode.north east) edge (\tikzlastnode.south west)}},
+}
+
+
+%%% ================================================================
+%%% BOXES  (labeled function boxes, reused for S-box, F, pi, layers, ...)
+%%% ================================================================
+
+\tikzset{
+  %% semantic fill colors -- apply to any box
+  crypto role/.is choice,
+  crypto role/default/.style = {fill=gray!10},
+  crypto role/sbox/.style    = {fill=orange!15},
+  crypto role/linear/.style  = {fill=blue!10},
+  crypto role/key/.style     = {fill=green!15},
+  crypto role/perm/.style    = {fill=purple!10},
+  %% base box -- inherit this, don't use directly
+  box base/.style={draw, inner sep=0.5pt, text height=2ex, align=center, crypto role=default},
+  bbox/.style 2 args={box base, minimum width=#1, minimum height=#2},
+  %% square box: S-box, single-wire function, constant
+  sbox/.style={bbox={0.8cm}{0.8cm}},
+  %% layer box: sizes itself to the bounding box of a given list of nodes
+  %% usage: \node[layerbox={(a)(b)(c)}, right=of refnode] (name) {label};
+  %layerbox/.style={box base, fit={#1}},
+  layerbox/.style 2 args={box base, fit={#1}, label=center:{#2}},
+  %% convenience aliases
+  vbox/.style = {bbox={0.7cm}{#1}},
+  hbox/.style = {bbox={#1}{0.7cm}},
+  note/.style = {color=gray, font=\scriptsize},
+}
+
+%%% ================================================================
+%%% STATE WIRES
+%%% ================================================================
+
+\tikzset{
+  state/.style = {
+    minimum size=0.5cm, inner sep=0pt, outer sep=0pt
+  },
+  wire/.style      = {-{Latex[length=5pt]},},
+  wire dashed/.style = {wire, dashed},
+}
+
+
+%%% ================================================================
+%%% BRACES
+%%% ================================================================
+
+%% \hbrace[left=, right=, raise=]{P1}{P2}{P3}
+%%   horizontal brace at y(P3), from x(P1)-left to x(P2)+right
+\pgfkeys{/hbrace/.is family, /hbrace,
+  left/.initial=0pt, right/.initial=0pt, raise/.initial=4pt,
+  color/.initial=gray, font/.initial=\scriptsize}
+\newcommand{\hbrace}[4][]{%
+  \pgfkeys{/hbrace, left=0pt, right=0pt, raise=4pt, color=gray, font=\scriptsize, #1}%
+  \draw[decorate, decoration={brace, mirror},
+        color=\pgfkeysvalueof{/hbrace/color}, font=\pgfkeysvalueof{/hbrace/font}]
+    ($(#2 |- #4)+(-\pgfkeysvalueof{/hbrace/left},-\pgfkeysvalueof{/hbrace/raise})$) --
+    ($(#3 |- #4)+(\pgfkeysvalueof{/hbrace/right},-\pgfkeysvalueof{/hbrace/raise})$)%
+}
+
+%% \vbrace[above=, below=, raise=]{P1}{P2}{P3}
+%%   vertical brace to the right of x(P3)+raise, from y(P2)-below upward to y(P1)+above
+%%   P1 = top node, P2 = bottom node, P3 = x reference (typically rightmost node)
+%%   brace opens leftward toward content; node[midway, right=..] places label outside
+\pgfkeys{/vbrace/.is family, /vbrace,
+  above/.initial=0pt, below/.initial=0pt, raise/.initial=4pt,
+  color/.initial=gray, font/.initial=\scriptsize}
+\newcommand{\vbrace}[4][]{%
+  \pgfkeys{/vbrace, above=0pt, below=0pt, raise=4pt, color=gray, font=\scriptsize, #1}%
+  \draw[decorate, decoration={brace},
+        color=\pgfkeysvalueof{/vbrace/color}, font=\pgfkeysvalueof{/vbrace/font}]
+    ($(#3 -| #4)+(+\pgfkeysvalueof{/vbrace/raise},-\pgfkeysvalueof{/vbrace/below})$) --
+    ($(#2 -| #4)+(+\pgfkeysvalueof{/vbrace/raise},+\pgfkeysvalueof{/vbrace/above})$)%
+}
+
+

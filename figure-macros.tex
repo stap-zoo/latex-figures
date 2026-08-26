@@ -1,0 +1,35 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Colors and macros expected by the TikZ figures in this folder.           %%%
+%%% Loaded by figures.tex. Replace these PLACEHOLDERS with the real          %%%
+%%% definitions from your paper's preamble.                                  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%--- colors expected by the figures (fill=typeone ... typefour) ------------
+\definecolor{typeone}{HTML}{7BA9DA}     % Low-degree (soft blue)
+\definecolor{typetwo}{HTML}{B899C9}     % Low-degree equivalence (soft purple)
+\definecolor{typethree}{HTML}{DDAA66}   % Split-and-lookup (soft orange)
+\definecolor{typefour}{HTML}{7EC8A4}    % Power Residue (soft green)
+
+%--- macros expected by the figures ----------------------------------------
+\newcommand{\M}{\mathsf{M}}                     % (MDS) matrix
+\newcommand{\R}{\mathsf{R}}                     % number of rounds
+
+% Poseidon/Poseidon2/Neptune specifics
+\newcommand{\Mext}{\mathsf{M}_{\mathcal{E}}}    % external matrix
+\newcommand{\Mint}{\mathsf{M}_{\mathcal{I}}}    % internal matrix
+\newcommand{\Rf}{R_f}                           % number of initial/final full rounds
+\newcommand{\RP}{R_P}                           % number of partial rounds
+\newcommand{\AddRC}{\texttt{AddRoundConstants}($\cdot$)} % round-constant layer label
+
+% Anemoi specifics
+\newcommand{\openFlystel}{\mathsf{F}_o}         % open Flystel S-box
+\newcommand{\Qgamma}{\mathsf{F}_1}              % Flystel component
+\newcommand{\Qdelta}{\mathsf{F}_2}              % Flystel component
+\newcommand{\Mx}{\M_x}                          % Left branch matrix 
+\newcommand{\My}{\M_y}                          % Right branch matrix
+
+% RC/Monolith specifics
+\newcommand{\concrete}{\texttt{Concrete}}    
+\newcommand{\bricks}{\texttt{Bricks}}           
+\newcommand{\bars}{\texttt{Bars}}             
+\newcommand{\barslu}{{\texttt{Bar}}}  % Bar lookup element

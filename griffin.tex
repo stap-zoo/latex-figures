@@ -1,0 +1,95 @@
+\begin{tikzpicture}[
+    node distance=0.7cm and 2cm,
+    roundbox/.style={vbox={1.2cm, fill=typeone}},
+]
+
+    % Input state
+    \node[state] (x1) {$x_1$};
+    \node[state, right=of x1] (x2) {$x_2$};
+    \node[state, right=of x2] (x3) {$x_3$};
+    \node[state, right=of x3] (x4) {$x_4$};
+    \node[state, right=of x4] (x5) {};
+    \node[state, right=of x5] (xm) {$x_t$};
+
+    % Sboxes inline on x1, x2 wires
+    \node[sbox, below=of x1, fill=typetwo] (s1)  {$x^{\frac{1}{\alpha}}$};
+    \node[sbox, below=of x2, fill=typeone] (s2)  {$x^\alpha$};
+
+    % MUL nodes on x3, x4, xm wires at the same height as the corresponding F_i
+    \node[MUL, below=2 of x3] (add3) {};
+    \node[MUL, below=3 of x4] (add4) {};
+    \node[below=4 of x5] (add5) {};
+    \node[MUL, below=5 of xm] (addm) {};
+
+    % F_i round function boxes, staggered one column to the right per step
+    \coordinate (F2x) at ($(x1)!0.5!(x2)$);
+    \coordinate (F3x) at ($(x2)!0.5!(x3)$);
+    \coordinate (F4x) at ($(x3)!0.5!(x4)$);
+    \coordinate (F5x) at ($(x4)!0.5!(x5)$);
+    \coordinate (Fmx) at ($(x5)!0.5!(xm)$);
+
+    \node[roundbox] (F3) at (F3x |- add3) {$\mathsf{F}_3$};
+    \node[roundbox] (F4) at (F4x |- add4) {$\mathsf{F}_4$};
+    \node (F5) at (F5x |- add5) {};
+    \node[roundbox] (Fm) at (Fmx |- addm) {$\mathsf{F}_t$};
+
+    % Output state
+    \node[state, below=6 of x1] (y1) {$y_1$};
+    \node[state, below=6 of x2] (y2) {$y_2$};
+    \node[state, below=6 of x3] (y3) {$y_3$};
+    \node[state, below=6 of x4] (y4) {$y_4$};
+    \node[state, below=6 of x5] (y5) {};
+    \node[state, below=6 of xm] (ym) {$y_t$};
+
+    % Start, mid, and target coordinates for last F_i input
+    \coordinate (s3) at ($(x2 |- s2)-(0, 0.7cm)$);
+    \coordinate (s4) at ($(x3 |- F3)+(0, 1cm)$);
+    \coordinate (s5) at ($(x4 |- F4)+(0, 1cm)$);
+    \coordinate (sm) at ($(x5 |- F5)+(0, 1cm)$);
+    \coordinate (t3) at ($(F3.west)+(0,0.3cm)$);
+    \coordinate (t4) at ($(F4.west)+(0,0.3cm)$);
+    \coordinate (t5) at ($(F5.west)+(0,0.3cm)$);
+    \coordinate (tm) at ($(Fm.west)+(0,0.3cm)$);
+    \coordinate (m3) at ($(s3)!0.5!(t3)$);
+    \coordinate (m4) at ($(s4)!0.5!(t4)$);
+    \coordinate (m5) at ($(s5)!0.5!(t5)$);
+    \coordinate (mm) at ($(sm)!0.5!(tm)$);
+
+    % Dots
+    \node at ($(x4)!0.5!(xm)$) {$\cdots$};
+    \node at ($(y4)!0.5!(ym)$) {$\cdots$};
+    \node (d1) at (m5) {$\vdots$};
+    \node (d2) at (mm) {$\vdots$};
+
+    % === WIRES ===
+
+    % Vertical wires
+    \draw[wire] (x1.south) -- (s1.north);   \draw[wire] (s1.south)   -- (y1.north);
+    \draw[wire] (x2.south) -- (s2.north);   \draw[wire] (s2.south)   -- (y2.north);
+    \draw[wire] (x3.south) -- (add3.north); \draw[wire] (add3.south) -- (y3.north);
+    \draw[wire] (x3.south) -- (add3.north); \draw[wire] (add3.south) -- (y3.north);
+    \draw[wire] (x4.south) -- (add4.north); \draw[wire] (add4.south) -- (y4.north);
+    \draw[wire] (xm.south) -- (addm.north); \draw[wire] (addm.south) -- (ym.north);
+
+    % Inputs/Outputs to F3
+    \draw[wire] (m3 |- t3) node[state, xshift=-0.2cm] {$0$} -- ($(F3.west)+(0,0.3cm)$);
+    \draw[wire] ($(x2 |- F3)+(0, 0.0cm)$) -- ($(F3.west)+(0, 0.0cm)$);
+    \draw[wire] ($(x1 |- F3)-(0, 0.3cm)$) -- ($(F3.west)-(0, 0.3cm)$);
+    \draw[wire] (F3.east) -- (add3.west);
+
+    % Inputs/Outputs to F4
+    \draw[wire] (s4) -- (m4 |- s4) -- (m4 |- t4) -- (t4);
+    \draw[wire] ($(x2 |- F4)+(0, 0.0cm)$) -- ($(F4.west)+(0, 0.0cm)$);
+    \draw[wire] ($(x1 |- F4)-(0, 0.3cm)$) -- ($(F4.west)-(0, 0.3cm)$);
+    \draw[wire] (F4.east) -- (add4.west);
+
+    % Inputs to F5
+    \draw[wire, -] (s5) -- (s5 -| d1) -- (d1);
+
+    % Inputs/Outputs to Fm
+    \draw[wire] (d2) -- (tm -| d2) -- (tm);
+    \draw[wire] ($(x2 |- Fm)+(0, 0.0cm)$) -- ($(Fm.west)+(0, 0.0cm)$);
+    \draw[wire] ($(x1 |- Fm)-(0, 0.3cm)$) -- ($(Fm.west)-(0, 0.3cm)$);
+    \draw[wire] (Fm.east) -- (addm.west);
+
+\end{tikzpicture}

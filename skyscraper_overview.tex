@@ -1,0 +1,26 @@
+\begin{tikzpicture}[xscale=3,yscale=0.42]
+    \node (xL) at (1.2,0.5) {$x_{L}$}; \draw[->] (xL) -- (1.2,-0.5);
+    \node (xR) at (1.8,0.5) {$x_{R}$}; \draw[->] (xR) -- (1.8,-0.5);
+    \node (yL) at (1.2,-14.5) {$y_{L}$}; \draw[<-] (yL) -- (1.2,-13.5);
+    \node (yR) at (1.8,-14.5) {$y_{R}$}; \draw[<-] (yR) -- (1.8,-13.5);
+            
+    % First Square Block
+    \draw[fill=typeone]    (1,-1.5+1)   rectangle (2,-1.5) node[pos = 0.5] {$S_{1} \circ S_{0}$};
+    \draw[fill=typeone]    (1,-1.5*2+1) rectangle (2,-1.5*2) node[pos = 0.5] {$S_{3} \circ S_{2}$};
+    \draw[fill=typeone]    (1,-1.5*3+1) rectangle (2,-1.5*3) node[pos = 0.5] {$S_{5} \circ S_{4}$};
+    % First Bars
+    \draw[fill=typethree] (1,-1.5*4+1) rectangle (2,-1.5*4) node[pos = 0.5] {$B_{7} \circ B_{6}$};
+    % Middle Square
+    \draw[fill=typeone]    (1,-1.5*5+1) rectangle (2,-1.5*5) node[pos = 0.5] {$S_{9} \circ S_{8}$};
+    % Second Bars
+    \draw[fill=typethree] (1,-1.5*6+1) rectangle (2,-1.5*6) node[pos = 0.5] {$B_{11} \circ B_{10}$};
+    % Final Square Block
+    \draw[fill=typeone]    (1,-1.5*7+1) rectangle (2,-1.5*7) node[pos = 0.5] {$S_{13} \circ S_{12}$};
+    \draw[fill=typeone]    (1,-1.5*8+1) rectangle (2,-1.5*8) node[pos = 0.5] {$S_{15} \circ S_{14}$};
+    \draw[fill=typeone]    (1,-1.5*9+1) rectangle (2,-1.5*9) node[pos = 0.5] {$S_{17} \circ S_{16}$};
+    
+    \foreach \i in {1,...,8}{
+        \draw[->] (1.2,-1.5*\i) -- ++(0,-0.5);
+        \draw[->] (1.8,-1.5*\i) -- ++(0,-0.5);
+    }
+\end{tikzpicture}

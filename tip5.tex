@@ -1,0 +1,61 @@
+\begin{tikzpicture}[
+    node distance=0.5cm and 0.5cm, 
+]
+
+    % === NODES ===
+
+    % Input state
+    \node[state] (x1) {$x_1$}; 
+    \node[state, right=of x1] (x2) {$x_2$};
+    \node[state, right=of x2] (x3) {};
+    \node[state, right=of x3] (x4) {$x_s$}; 
+    \node[state, right=of x4] (x5) {$x_{s+1}$}; 
+    \node[state, right=of x5] (x6) {};
+    \node[state, right=of x6] (x7) {$x_t$};
+
+    % S-Boxes
+    \node[sbox, below=of x1, fill=typethree] (s1) {$S$}; 
+    \node[sbox, below=of x2, fill=typethree] (s2) {$S$}; 
+    \node[sbox, draw=none, fill=none, below=of x3] (s3) {$\cdots$}; 
+    \node[sbox, below=of x4, fill=typethree] (s4) {$S$}; 
+    \node[sbox, below=of x5, fill=typeone] (s5) {$x^\alpha$}; 
+    \node[sbox, draw=none, fill=none, below=of x6] (s6) {$\cdots$}; 
+    \node[sbox, below=of x7, fill=typeone] (s7) {$x^\alpha$};
+
+    % Linear Layer
+    \foreach \i in {1,2,...,7} {
+        \node[sbox, draw=none, minimum height=0.35cm, below=of s\i] (l\i) {}; 
+    }
+    \node[layerbox={(l1)(l7)}{$\M$}] (l) {};
+
+    % Constant addition
+    \foreach \i in {1,2,4,5,7} { 
+        \node[PLUS, below=of l\i] (a\i) {}; 
+    }
+    \foreach \i in {3,6} {
+        \node[draw=none, fill=none, below=of l\i] (a\i) {$\cdots$}; 
+    }
+
+    % Output state
+    \node[state, below=of a1] (y1) {$y_1$}; 
+    \node[state, below=of a2] (y2) {$y_2$}; 
+    \node[state, below=of a3] (y3) {}; 
+    \node[state, below=of a4] (y4) {$y_s$}; 
+    \node[state, below=of a5] (y5) {$y_{s+1}$}; 
+    \node[state, below=of a6] (y6) {}; 
+    \node[state, below=of a7] (y7) {$y_t$};
+
+    % Round constants
+    \node[left=of a1] (c1) {$C^{(i)}$};
+
+    % === WIRES ===
+    \foreach \i in {1,2,4,5,7} {
+        \draw[wire] (x\i.south) -- (s\i.north);
+        \draw[wire] (s\i.south) -- (l\i.north);
+        \draw[wire] (l\i.south) -- (a\i.north);
+        \draw[wire] (a\i.south) -- (y\i.north);
+    }
+    \draw[wire] (c1) -- (a1.west);
+   
+
+\end{tikzpicture}

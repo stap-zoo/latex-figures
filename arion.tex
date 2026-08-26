@@ -1,0 +1,81 @@
+\begin{tikzpicture}[
+    node distance=2cm,
+    sbox/.append style={fill=typeone},
+]
+    \pgfmathsetlengthmacro{\vdist}{2cm}
+
+    % Input state
+    \node[state] (x1) {$x_1$};
+    \node[state, right=of x1] (x2) {};
+    \node[state, right=of x2] (x3) {$x_{t-2}$};
+    \node[state, right=of x3] (x4) {$x_{t-1}$};
+    \node[state, right=of x4] (x5) {$x_t$};
+
+    % Round functions
+    \node[sbox, below=0.5 of x5, fill=typetwo] (s5) {$x^{1/\alpha_2}$};
+    \node[sbox] (s4) at ($(x4 |- s5) + (0,-0.6*\vdist)$) {$\mathsf{F}_{t-1}$};
+    \node[sbox] (s3) at ($(x3 |- s4) + (0,-\vdist)$) {$\mathsf{F}_{t-2}$};
+    \node       (s2) at ($(x2 |- s3) + (0,-\vdist)$) {};
+    \node[sbox] (s1) at ($(x1 |- s2) + (0,-0.25*\vdist)$) {$\mathsf{F}_{1}$};
+
+    % Output state
+    \node[state, below=3.75*\vdist of x1] (y1) {$y_1$};
+    \node[state, below=3.75*\vdist of x2] (y2) {};
+    \node[state, below=3.75*\vdist of x3] (y3) {$y_{t-2}$};
+    \node[state, below=3.75*\vdist of x4] (y4) {$y_{t-1}$};
+    \node[state, below=3.75*\vdist of x5] (y5) {$y_t$};
+
+    % Middle coordinates 
+    \coordinate (m1) at ($(s1)!0.5!(s2)$) {};
+    \coordinate (m2) at ($(s2)!0.5!(s3)$) {};
+    \coordinate (m3) at ($(s3)!0.5!(s4)$) {};
+    \coordinate (m4) at ($(s4)!0.5!(s5)$) {};
+    
+    % PLUS symbols
+    \node[PLUS] (a1b) at ($(m1) + (0,0.2cm)$) {};
+    \node[PLUS] (a2t) at ($(m2) + (0,0.3cm)$) {};
+    \node[PLUS] (a2b) at ($(m2) - (0,0.5cm)$) {};
+    \node[PLUS] (a3t) at ($(m3) + (0,0.3cm)$) {};
+    \node[PLUS] (a3b) at ($(m3) - (0,0.5cm)$) {};
+    \node[PLUS] (a4t) at ($(m4) - (0,0.0cm)$) {};
+
+    % Dots
+    \node at ($(x1)!0.5!(x3)$) {$\cdots$};
+    \node at ($(y1)!0.5!(y3)$) {$\cdots$};
+    \node (d1) at ($(a1b.north) + (0,0.8cm)$) {$\vdots$};
+    \node (d2) at ($(a1b.east) + (0.8cm,0)$) {$\cdots$};
+
+
+    % === WIRES ===
+
+    % Vertical wires
+    \draw[wire] (x1.south) -- (s1.north);   \draw[wire] (s1.south)   -- (y1.north);
+    %\draw[wire] (x2.south) -- (s2.north);   \draw[wire] (s2.south)   -- (y2.north);
+    \draw[wire] (x3.south) -- (s3.north);   \draw[wire] (s3.south)   -- (y3.north);
+    \draw[wire] (x4.south) -- (s4.north);   \draw[wire] (s4.south)   -- (y4.north);
+    \draw[wire] (x5.south) -- (s5.north);   \draw[wire] (s5.south)   -- (y5.north);
+
+    % From PLUS symbols to round functions
+    \draw[wire] (a1b.south) |- (s1.east);
+    \draw[wire, shorten >=15pt, -] (a2b.north) |- (s2.east);
+    \draw[wire] (a3b.north) |- (s3.east);
+    \draw[wire] (a4t.south) |- (s4.east);
+
+    % From inputs to PLUS symbols (and next plus, if applicable)
+    \draw[wire] (d1.south) -- (a1b.north);
+    \draw[wire] ($(s3.north) + (0,0.3cm)$) -| (a2t.north); \draw[wire] (a2t.south) -- (a2b.north);
+    \draw[wire] ($(s4.north) + (0,0.3cm)$) -| (a3t.north); \draw[wire] (a3t.south) -- (a3b.north);
+    \draw[wire] ($(s5.north) + (0,0.3cm)$) -| (a4t.north);
+
+    % Round function output to upper PLUS symbol
+    \draw[wire] ($(s3.south) - (0,0.3cm)$) |- (a2t.east);
+    \draw[wire] ($(s4.south) - (0,0.3cm)$) |- (a3t.east);
+    \draw[wire] ($(s5.south) - (0,0.3cm)$) |- (a4t.east);
+
+    % Round function input to lower PLUS symbol
+    \draw[wire] (d2.west) -- (a1b.east);
+    \draw[wire] (a3b.south) |- (a2b.east);
+    \draw[wire] (a4t.south) |- (a3b.east);
+
+
+\end{tikzpicture}

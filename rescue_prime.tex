@@ -1,0 +1,59 @@
+\begin{tikzpicture}[
+    node distance=-0.4pt and 0.6cm, 
+    sbox/.append style={fill=typeone}
+]
+
+    \node (in) {$S_{2i-2}$};
+
+    % Step 1: inverse S-box (stacked: sbox, dots, sbox)
+    \node[sbox, right=of in] (sb1d) {$\vdots$};
+    \node[sbox, above=of sb1d] (sb1t) {$x^{\alpha}$};
+    \node[sbox, below=of sb1d] (sb1b) {$x^{\alpha}$};
+
+    % Step 1: MDS matrix — sized to match the sbox stack
+    \node[layerbox={(sb1t)(sb1b)}{$\M$}, right=of sb1d] (m1) {};
+
+    % Step 1: key addition
+    \node[PLUS, right=of m1] (add1) {};
+    \node[above=1cm of add1] (k1) {$C^{(2i-1)}$};%{$K_{2i-1}$};
+
+    % Step 2: forward S-box (stacked: sbox, dots, sbox)
+    \node[sbox, right=of add1, fill=typetwo] (sb2d) {$\vdots$};
+    \node[sbox, above=of sb2d, fill=typetwo] (sb2t) {$x^{\frac{1}{\alpha}}$};
+    \node[sbox, below=of sb2d, fill=typetwo] (sb2b) {$x^{\frac{1}{\alpha}}$};
+    
+    % Step 2: MDS matrix — sized to match the sbox stack
+    % Use label=center:{$\M$} to put the label in the middle of the box
+    \node[layerbox={(sb2t)(sb2b)}{$\M$}, right=of sb2d] (m2) {};
+
+    % Step 2: key addition
+    \node[PLUS, right=of m2] (add2) {};
+    \node[above=1cm of add2] (k2) {$C^{(2i)}$};%{$K_{2i}$};
+
+    \node[right=of add2] (out) {$S_{2i}$};
+
+    % Main horizontal wires
+    \draw[wire] (in.east)   -- (sb1d.west);
+    \draw[wire] (sb1d.east) -- (m1.west);
+    \draw[wire] (m1.east)   -- (add1.west);
+    \draw[wire] (add1.east) -- (sb2d.west);
+    \draw[wire] (sb2d.east) -- (m2.west);
+    \draw[wire] (m2.east)   -- (add2.west);
+    \draw[wire] (add2.east) -- (out.west);
+
+    % Key wires (from above)
+    \draw[wire] (k1.south) -- (add1.north);
+    \draw[wire] (k2.south) -- (add2.north);
+
+    % Decorations
+    \hbrace[left=-25pt,right=10pt,raise=15pt]{in}{add1}{sb1b} node[midway, below=3pt] {Forward step $(F)$};
+    \hbrace[left=-15pt,right=-25pt,raise=15pt]{add1}{out}{sb2b} node[midway, below=3pt] {Backward step $(B)$};
+
+    %\hbrace[left=-2pt,right=-2pt,raise=-2pt]{sb1t.east}{sb1t.west}{sb1t.north} node[midway, above=3pt] {$\pi_0$};
+    %\hbrace[left=-2pt,right=-2pt,raise=-2pt]{sb2t.east}{sb2t.west}{sb2t.north} node[midway, above=3pt] {$\pi_1$};
+
+    % Labels
+    %\node[note, above=of sb1t] {$\pi_1$};
+    %\node[note, above=of sb2t] {$\pi_0$};
+    
+\end{tikzpicture}

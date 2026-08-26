@@ -1,0 +1,294 @@
+\begin{tikzpicture}
+        \draw (0.25, -0.75) -- ++(0.5, 0.5) node[right] {$31$};
+        % Block 1
+        \begin{scope}
+            % Squares
+            \begin{scope}[shift={(1.25, -1.75)}]
+                % x^2
+                \draw[fill=typeone] (0, 0) rectangle ++(0.5, 0.5) node[midway] {$x^{2}$};
+                % Input
+                \draw (0.25, 0) -- ++(0, -0.25);
+                \draw[fill=black] (0.25, -0.25) circle[radius=1.5pt];
+                % Output
+                \draw (0.25, 0.75) circle[radius=0.125];
+                \draw (0.25, 0.875) -- ++(0, -0.25) -- ++(0, -0.125);
+                % Constant
+                \draw (-0.25, -0.25) circle[radius=0.125];
+                \draw (-0.25, -0.125) -- ++(0, -0.375) node[below] {$c_{i, 0}$};
+                % Feedback
+                \draw (0.75, 0.75) -- ++(0, -1.125);
+                \draw[fill=black] (0.75, 0.75) circle[radius=1.5pt];
+                \draw (0.75, -0.25) circle[radius=0.125];
+            \end{scope}
+            %
+            \begin{scope}[shift={(2.75, -1.75)}]
+                % x^2
+                \draw[fill=typeone] (0, 0) rectangle ++(0.5, 0.5) node[midway] {$x^{2}$};
+                % Input
+                \draw (0.25, 0) -- ++(0, -0.25);
+                \draw[fill=black] (0.25, -0.25) circle[radius=1.5pt];
+                % Output
+                \draw (0.25, 0.75) circle[radius=0.125];
+                \draw (0.25, 0.875) -- ++(0, -0.25) -- ++(0, -0.125);
+                % Constant
+                \draw (-0.25, -0.25) circle[radius=0.125];
+                \draw (-0.25, -0.125) -- ++(0, -0.375) node[below] {$\tilde{c}_{i, 0}$};
+                % Feedback
+                \draw (0.75, 0.75) -- ++(0, -1.125);
+                \draw[fill=black] (0.75, 0.75) circle[radius=1.5pt];
+                \draw (0.75, -0.25) circle[radius=0.125];
+            \end{scope}
+            % Vertical Connectors
+            \draw (0, -1)   -- ++(4, 0) -- ++(0.125, 0);
+            \draw (0.5, -2) -- ++(4, 0) -- ++(0.125, 0);
+            \draw[fill=black] (0, -1) circle[radius=1.5pt];
+            \draw[fill=black] (0.5, -2) circle[radius=1.5pt];
+            % Addition
+            \draw (4, -1) circle[radius=0.125];
+            \draw (4.5, -2) circle[radius=0.125];
+        \end{scope}
+        % Block 2
+        \begin{scope}[shift={(0, -2)}]
+            % Squares
+            \begin{scope}[shift={(1.25, -1.75)}]
+                % x^2
+                \draw[fill=typeone] (0, 0) rectangle ++(0.5, 0.5) node[midway] {$x^{2}$};
+                % Input
+                \draw (0.25, 0) -- ++(0, -0.25);
+                \draw[fill=black] (0.25, -0.25) circle[radius=1.5pt];
+                % Output
+                \draw (0.25, 0.75) circle[radius=0.125];
+                \draw (0.25, 0.875) -- ++(0, -0.25) -- ++(0, -0.125);
+                % Constant
+                \draw (-0.25, -0.25) circle[radius=0.125];
+                \draw (-0.25, -0.125) -- ++(0, -0.375) node[below] {$c_{i, 1}$};
+                % Feedback
+                \draw (0.75, 0.75) -- ++(0, -1.125);
+                \draw[fill=black] (0.75, 0.75) circle[radius=1.5pt];
+                \draw (0.75, -0.25) circle[radius=0.125];
+            \end{scope}
+            %
+            \begin{scope}[shift={(2.75, -1.75)}]
+                % x^2
+                \draw[fill=typeone] (0, 0) rectangle ++(0.5, 0.5) node[midway] {$x^{2}$};
+                % Input
+                \draw (0.25, 0) -- ++(0, -0.25);
+                \draw[fill=black] (0.25, -0.25) circle[radius=1.5pt];
+                % Output
+                \draw (0.25, 0.75) circle[radius=0.125];
+                \draw (0.25, 0.875) -- ++(0, -0.25) -- ++(0, -0.125);
+                % Constant
+                \draw (-0.25, -0.25) circle[radius=0.125];
+                \draw (-0.25, -0.125) -- ++(0, -0.375) node[below] {$\tilde{c}_{i, 1}$};
+                % Feedback
+                \draw (0.75, 0.75) -- ++(0, -1.125);
+                \draw[fill=black] (0.75, 0.75) circle[radius=1.5pt];
+                \draw (0.75, -0.25) circle[radius=0.125];
+            \end{scope}
+            % Vertical Connectors
+            \draw (-1, -1)   -- ++(6, 0) -- ++(0.125, 0);
+            \draw (-0.5, -2) -- ++(6, 0) -- ++(0.125, 0);
+            \draw[fill=black] (-1, -1) circle[radius=1.5pt];
+            \draw[fill=black] (-0.5, -2) circle[radius=1.5pt];
+            % Addition
+            \draw (5, -1) circle[radius=0.125];
+            \draw (5.5, -2) circle[radius=0.125];
+        \end{scope}
+        % Block 3
+        \begin{scope}[shift={(0, -4)}]
+            % Squares
+            \begin{scope}[shift={(1.25, -1.75)}]
+                % x^2
+                \draw[fill=typeone] (0, 0) rectangle ++(0.5, 0.5) node[midway] {$x^{2}$};
+                % Input
+                \draw (0.25, 0) -- ++(0, -0.25);
+                \draw[fill=black] (0.25, -0.25) circle[radius=1.5pt];
+                % Output
+                \draw (0.25, 0.75) circle[radius=0.125];
+                \draw (0.25, 0.875) -- ++(0, -0.25) -- ++(0, -0.125);
+                % Constant
+                \draw (-0.25, -0.25) circle[radius=0.125];
+                \draw (-0.25, -0.125) -- ++(0, -0.375) node[below] {$c_{i, 2}$};
+                % Feedback
+                \draw (0.75, 0.75) -- ++(0, -1.125);
+                \draw[fill=black] (0.75, 0.75) circle[radius=1.5pt];
+                \draw (0.75, -0.25) circle[radius=0.125];
+            \end{scope}
+            %
+            \begin{scope}[shift={(2.75, -1.75)}]
+                % x^2
+                \draw[fill=typeone] (0, 0) rectangle ++(0.5, 0.5) node[midway] {$x^{2}$};
+                % Input
+                \draw (0.25, 0) -- ++(0, -0.25);
+                \draw[fill=black] (0.25, -0.25) circle[radius=1.5pt];
+                % Output
+                \draw (0.25, 0.75) circle[radius=0.125];
+                \draw (0.25, 0.875) -- ++(0, -0.25) -- ++(0, -0.125);
+                % Constant
+                \draw (-0.25, -0.25) circle[radius=0.125];
+                \draw (-0.25, -0.125) -- ++(0, -0.375) node[below] {$\tilde{c}_{i, 2}$};
+                % Feedback
+                \draw (0.75, 0.75) -- ++(0, -1.125);
+                \draw[fill=black] (0.75, 0.75) circle[radius=1.5pt];
+                \draw (0.75, -0.25) circle[radius=0.125];
+            \end{scope}
+            % Vertical Connectors
+            \draw (-2, -1)   -- ++(8, 0) -- ++(0.125, 0);
+            \draw (-1.5, -2) -- ++(8, 0) -- ++(0.125, 0);
+            \draw[fill=black] (-2, -1) circle[radius=1.5pt];
+            \draw[fill=black] (-1.5, -2) circle[radius=1.5pt];
+            % Addition
+            \draw (6, -1) circle[radius=0.125];
+            \draw (6.5, -2) circle[radius=0.125];
+        \end{scope}
+        % Block 4
+        \begin{scope}[shift={(0, -6)}]
+            % Squares
+            \begin{scope}[shift={(1.25, -1.75)}]
+                % x^2
+                \draw[fill=typeone] (0, 0) rectangle ++(0.5, 0.5) node[midway] {$x^{2}$};
+                % Input
+                \draw (0.25, 0) -- ++(0, -0.25);
+                \draw[fill=black] (0.25, -0.25) circle[radius=1.5pt];
+                % Output
+                \draw (0.25, 0.75) circle[radius=0.125];
+                \draw (0.25, 0.875) -- ++(0, -0.25) -- ++(0, -0.125);
+                % Constant
+                \draw (-0.25, -0.25) circle[radius=0.125];
+                \draw (-0.25, -0.125) -- ++(0, -0.375) node[below] {$c_{i, 3}$};
+                % Feedback
+                \draw (0.75, 0.75) -- ++(0, -1.125);
+                \draw[fill=black] (0.75, 0.75) circle[radius=1.5pt];
+                \draw (0.75, -0.25) circle[radius=0.125];
+            \end{scope}
+            %
+            \begin{scope}[shift={(2.75, -1.75)}]
+                % x^2
+                \draw[fill=typeone] (0, 0) rectangle ++(0.5, 0.5) node[midway] {$x^{2}$};
+                % Input
+                \draw (0.25, 0) -- ++(0, -0.25);
+                \draw[fill=black] (0.25, -0.25) circle[radius=1.5pt];
+                % Output
+                \draw (0.25, 0.75) circle[radius=0.125];
+                \draw (0.25, 0.875) -- ++(0, -0.25) -- ++(0, -0.125);
+                % Constant
+                \draw (-0.25, -0.25) circle[radius=0.125];
+                \draw (-0.25, -0.125) -- ++(0, -0.375) node[below] {$\tilde{c}_{i, 3}$};
+                % Feedback
+                \draw (0.75, 0.75) -- ++(0, -1.125);
+                \draw[fill=black] (0.75, 0.75) circle[radius=1.5pt];
+                \draw (0.75, -0.25) circle[radius=0.125];
+            \end{scope}
+            % Vertical Connectors
+            \draw (-3, -1)   -- ++(10, 0) -- ++(0.125, 0);
+            \draw (-2.5, -2) -- ++(10, 0) -- ++(0.125, 0);
+            \draw[fill=black] (-3, -1) circle[radius=1.5pt];
+            \draw[fill=black] (-2.5, -2) circle[radius=1.5pt];
+            % Addition
+            \draw (7, -1) circle[radius=0.125];
+            \draw (7.5, -2) circle[radius=0.125];
+        \end{scope}
+        % Inputs/Outputs
+        \draw (-3, 0)   -- ++(0, -13.5) -- ++(0, -0.5) -- ++(7, -1)  -- ++(0, -1);   % x0 |--> y8
+        \draw (-2.5, 0) -- ++(0, -13.5) -- ++(0, -0.5) -- ++(7, -1)  -- ++(0, -1);   % x1 |--> y9
+        \draw (-2, 0)   -- ++(0, -13.5) -- ++(0, -0.5) -- ++(7, -1)  -- ++(0, -1);   % x2 |--> y10
+        \draw (-1.5, 0) -- ++(0, -13.5) -- ++(0, -0.5) -- ++(7, -1)  -- ++(0, -1);   % x3 |--> y11
+        \draw (-1, 0)   -- ++(0, -13.5) -- ++(0, -0.5) -- ++(7, -1)  -- ++(0, -1);   % x4 |--> y12
+        \draw (-0.5, 0) -- ++(0, -13.5) -- ++(0, -0.5) -- ++(7, -1)  -- ++(0, -1);   % x5 |--> y13
+        \draw (0, 0)    -- ++(0, -13.5) -- ++(0, -0.5) -- ++(7, -1)  -- ++(0, -1);   % x6 |--> y14
+        \draw (0.5, 0)  -- ++(0, -13.5) -- ++(0, -0.5) -- ++(7, -1)  -- ++(0, -1);   % x7 |--> y15
+        \draw (4, 0)    -- ++(0, -13.5) -- ++(0, -0.5) -- ++(-7, -1) -- ++(0, -1);   % x8 |--> y0
+        \draw (4.5, 0)  -- ++(0, -13.5) -- ++(0, -0.5) -- ++(-7, -1) -- ++(0, -1);   % x9 |--> y1
+        \draw (5, 0)    -- ++(0, -13.5) -- ++(0, -0.5) -- ++(-7, -1) -- ++(0, -1);   % x10 |--> y2
+        \draw (5.5, 0)  -- ++(0, -13.5) -- ++(0, -0.5) -- ++(-7, -1) -- ++(0, -1);   % x11 |--> y3
+        \draw (6, 0)    -- ++(0, -13.5) -- ++(0, -0.5) -- ++(-7, -1) -- ++(0, -1);   % x12 |--> y4
+        \draw (6.5, 0)  -- ++(0, -13.5) -- ++(0, -0.5) -- ++(-7, -1) -- ++(0, -1);   % x13 |--> y5
+        \draw (7, 0)    -- ++(0, -13.5) -- ++(0, -0.5) -- ++(-7, -1) -- ++(0, -1);   % x14 |--> y6
+        \draw (7.5, 0)  -- ++(0, -13.5) -- ++(0, -0.5) -- ++(-7, -1) -- ++(0, -1);   % x15 |--> y7
+
+        \draw (-3, 0) node[above] {$x_{1}$};
+        \draw (-2.5, 0.125) node[above] {$x_{2}$};
+        \draw (-2, 0) node[above] {$x_{3}$};
+        \draw (-1.5, 0.125) node[above] {$x_{4}$};
+        \draw (-1, 0) node[above] {$x_{5}$};
+        \draw (-0.5, 0.125) node[above] {$x_{6}$};
+        \draw (0, 0) node[above] {$x_{7}$};
+        \draw (0.5, 0.125) node[above] {$x_{8}$};
+        %
+        \draw (4, 0) node[above] {$x_{9}$};
+        \draw (4.5, 0.125) node[above] {$x_{10}$};
+        \draw (5, 0) node[above] {$x_{11}$};
+        \draw (5.5, 0.125) node[above] {$x_{12}$};
+        \draw (6, 0) node[above] {$x_{13}$};
+        \draw (6.5, 0.125) node[above] {$x_{14}$};
+        \draw (7, 0) node[above] {$x_{15}$};
+        \draw (7.5, 0.125) node[above] {$x_{16}$};
+        %
+        \draw (-3, -16) node[below] {$y_{1}$};
+        \draw (-2.5, -16.125) node[below] {$y_{2}$};
+        \draw (-2, -16) node[below] {$y_{3}$};
+        \draw (-1.5, -16.125) node[below] {$y_{4}$};
+        \draw (-1, -16) node[below] {$y_{5}$};
+        \draw (-0.5, -16.125) node[below] {$y_{6}$};
+        \draw (0, -16) node[below] {$y_{7}$};
+        \draw (0.5, -16.125) node[below] {$y_{8}$};
+        %
+        \draw (4, -16) node[below] {$y_{9}$};
+        \draw (4.5, -16.125) node[below] {$y_{10}$};
+        \draw (5, -16) node[below] {$y_{11}$};
+        \draw (5.5, -16.125) node[below] {$y_{12}$};
+        \draw (6, -16) node[below] {$y_{13}$};
+        \draw (6.5, -16.125) node[below] {$y_{14}$};
+        \draw (7, -16) node[below] {$y_{15}$};
+        \draw (7.5, -16.125) node[below] {$y_{16}$};
+
+        % Matrix
+        % x0 + x1
+        \draw (1.5, -12.5) circle[radius=0.125];
+        \draw (1.5, -12) -- ++(0, -0.5) -- ++(0, -0.125);
+        \draw[fill=black] (1.5, -12) circle[radius=1.5pt];
+        % 2 * x0 + x1
+        \draw (2, -12) circle[radius=0.125];
+        \draw (2, -12.5) -- ++(0, 0.5) -- ++(0, 0.125);
+        \draw[fill=black] (2, -12.5) circle[radius=1.5pt];
+
+        % Vertical Connectors
+        \draw (-2, -9)     -- ++(9, 0) -- ++(0.125, 0);
+        \draw (-1.5, -9.5)  -- ++(9, 0) -- ++(0.125, 0);
+        \draw[fill=black] (-2, -9) circle[radius=1.5pt];
+        \draw[fill=black] (-1.5, -9.5) circle[radius=1.5pt];
+        %
+        \draw (-1, -10)    -- ++(8, 0) -- ++(0.125, 0);
+        \draw (-0.5, -10.5)  -- ++(8, 0) -- ++(0.125, 0);
+        \draw[fill=black] (-1, -10) circle[radius=1.5pt];
+        \draw[fill=black] (-0.5, -10.5) circle[radius=1.5pt];
+        %
+        \draw (0, -12)    -- ++(3, 0);
+        \draw (0.5, -12.5)  -- ++(3, 0);
+        \draw[fill=black] (0, -12) circle[radius=1.5pt];
+        \draw[fill=black] (0.5, -12.5) circle[radius=1.5pt];
+        \draw[fill=black] (3, -12) circle[radius=1.5pt];
+        \draw[fill=black] (3.5, -12.5) circle[radius=1.5pt];
+        %
+        \draw (3, -12)      -- ++(0, 1)     -- ++(4, 0) -- ++(0.125, 0);
+        \draw (3.5, -12.5)  -- ++(0, 1)     -- ++(4, 0) -- ++(0.125, 0);
+        %
+        \draw (3, -12)      -- ++(3, 0)                 -- ++(0.125, 0);
+        \draw (3, -12.5)    -- ++(3.5, 0)               -- ++(0.125, 0);
+        %
+        \draw (3, -12)      -- ++(0, -1)    -- ++(2, 0) -- ++(0.125, 0);
+        \draw (3.5, -12.5)  -- ++(0, -1)    -- ++(2, 0) -- ++(0.125, 0);
+        % XOR
+        \draw (7, -9) circle[radius=0.125];
+        \draw (7.5, -9.5) circle[radius=0.125];
+        \draw (7, -10) circle[radius=0.125];
+        \draw (7.5, -10.5) circle[radius=0.125];
+        \draw (7, -11) circle[radius=0.125];
+        \draw (7.5, -11.5) circle[radius=0.125];
+        %
+        \draw (6, -12) circle[radius=0.125];
+        \draw (6.5, -12.5) circle[radius=0.125];
+        %
+        \draw (5, -13) circle[radius=0.125];
+        \draw (5.5, -13.5) circle[radius=0.125];
+\end{tikzpicture}

@@ -1,0 +1,44 @@
+\begin{tikzpicture}[
+    node distance=1.8cm,
+    roundbox/.style={vbox={1.8cm, fill=typeone}},
+]
+
+    % Input state
+    \node[state] (x0) {$x_1$};
+    \node[state, right=of x0] (x1) {$x_2$};
+    \node[state, right=of x1] (x2) {$x_3$};
+    \node[state, right=of x2] (x3) {$x_t$};
+
+    % Round function and addition
+    \node[roundbox] (rf) at ($(x0)!0.5!(x1) + (0,-1.5cm)$) {$\mathsf{F}_i$};
+    \node[PLUS] (add) at ($(x0 |- rf.west)$) {};
+
+    % Input ports on right side of F
+    \coordinate (rf1) at ($(rf.east) + (0, 0.6cm)$) {};
+    \coordinate (rf2) at  ($(rf.east)$) {};
+    \coordinate (rf3) at ($(rf.east) - (0,0.6cm)$) {};
+
+    % Output state
+    \node[state, below=4cm of x0] (y0) {$y_1$};
+    \node[state, right=of y0] (y1) {$y_2$};
+    \node[state, right=of y1] (y2) {$y_3$};
+    \node[state, right=of y2] (y3) {$y_t$};
+
+    % Wires
+    \draw[wire] (x0.south) -- (add.north);
+    \draw[wire] (rf.west) -- (add.east);
+    \draw[wire] (add.south) -- ($(y0.north)+(0,1.2cm)$) -- ($(y3.north)+(0,0.6cm)$) -- (y3.north);
+
+    \draw[wire] (x1.south) -- (x1.south |- rf1) -- (rf1);
+    \draw[wire] (x1.south |- rf1) -- ($(y1.north)+(0,1.2cm)$) -- ($(y0.north)+(0,0.6cm)$) -- (y0.north);
+
+    \draw[wire] (x2.south) -- (x2.south |- rf2) -- (rf2);
+    \draw[wire] (x2.south |- rf1) -- ($(y2.north)+(0,1.2cm)$) -- ($(y1.north)+(0,0.6cm)$) -- (y1.north);
+
+    \draw[wire] (x3.south) -- (x3.south |- rf3) -- (rf3);
+    \draw[wire] (x3.south |- rf1) -- ($(y3.north)+(0,1.2cm)$) -- ($(y2.north)+(0,0.6cm)$) -- (y2.north);
+
+    % Dots
+    \node at ($(x2)!0.5!(x3) + (0,-1cm)$) {$\dots$};
+
+\end{tikzpicture}

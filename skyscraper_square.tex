@@ -1,0 +1,19 @@
+\begin{tikzpicture}[xscale=1,yscale=1]
+    \draw[dotted, line width=1.5pt, color=typeone, fill=typeone!10] (-0.5,-5) rectangle (3.5,-0.85);
+
+    \node (xL) at (0,-0.5) {$x_{L}$};
+    \node (xR) at (3,-0.5) {$x_{R}$};
+    \node (yL) at (0,-5.5) {$y_{L}$};
+    \node (yR) at (3,-5.5) {$y_{R}$};
+
+    \draw[fill=typeone] (0.5,-1) rectangle (2.5,-2) node[pos = 0.5] {$x^2/\sigma + \gamma_{i}$};
+    \draw[fill=typeone] (0.5,-3) rectangle (2.5,-4) node[pos = 0.5] {$x^2/\sigma + \gamma_{i+1}$};
+        
+    \node[inner sep = 0pt] (add0) at (3,-1.5) {$\boxplus$};
+    \node[inner sep = 0pt] (add1) at (3,-3.5) {$\boxplus$};
+    \draw[->] (0,-1.5) -- (0.5,-1.5); \draw[->] (2.5,-1.5) -- (add0);
+    \draw[->] (0,-3.5) -- (0.5,-3.5); \draw[->] (2.5,-3.5) -- (add1);
+
+    \draw[->] (xL) -- (0,-2.25) -- (3,-2.75) -- (add1) -- (3,-4.25) -- (0,-4.75) -- (yL);
+    \draw[->] (xR) -- (add0) -- (3,-2.25) -- (0,-2.75) -- (0,-4.25) -- (3,-4.75) -- (yR);
+\end{tikzpicture}

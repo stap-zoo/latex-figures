@@ -1,0 +1,117 @@
+\begin{tikzpicture}[
+    node distance=-0.4pt and 0.6cm, 
+    sbox/.append style={fill=typeone}
+]
+
+    \node (in2) {$x_2$};
+
+    % Invisible height reference: each column spans the 3-bar wire stack
+    % (bars are centered on the in2 row at y = +0.8 / 0 / -0.8).
+    \node[sbox, draw=none, fill=none] (reftop) at (0, 0.8) {};
+    \node[sbox, draw=none, fill=none] (refbot) at (0,-0.8) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\concrete}}, right=of in2] (c1) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\bricks}}, right=of c1, fill=typeone] (b1) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\concrete}}, right=of b1] (c2) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\bricks}}, right=of c2, fill=typeone] (b2) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\concrete}}, right=of b2] (c3) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\bricks}}, right=of c3, fill=typeone] (b3) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\concrete}}, right=of b3] (c4) {};
+
+    \node[sbox, right=of c4, fill=typethree] (bar2) {\barslu};
+    \node[sbox, above=of bar2, fill=typethree] (bar1) {\barslu};
+    \node[sbox, below=of bar2, fill=typethree] (bar3) {\barslu};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\concrete}}, right=of bar2] (c5) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\bricks}}, right=of c5, fill=typeone] (b4) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\concrete}}, right=of b4] (c6) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\bricks}}, right=of c6, fill=typeone] (b5) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\concrete}}, right=of b5] (c7) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\bricks}}, right=of c7, fill=typeone] (b6) {};
+
+    \node[layerbox={(reftop)(refbot)}{\rotatebox{90}{\concrete}}, right=of b6] (c8) {};
+
+    \node (in1) at (in2 |- bar1) {$x_1$};
+    \node (in3) at (in2 |- bar3) {$x_3$};
+
+    \node[right=of c8] (out2) {$y_2$};
+    \node (out1) at (out2 |- bar1) {$y_1$};
+    \node (out3) at (out2 |- bar3) {$y_3$};
+
+    % Wires
+    \draw[wire] (in1.east |- bar1) -- (c1.west |- bar1);
+    \draw[wire] (in2.east |- bar2) -- (c1.west |- bar2);
+    \draw[wire] (in3.east |- bar3) -- (c1.west |- bar3);
+
+    \draw[wire] (c1.east |- bar1) -- (b1.west |- bar1);
+    \draw[wire] (c1.east |- bar2) -- (b1.west |- bar2);
+    \draw[wire] (c1.east |- bar3) -- (b1.west |- bar3);
+
+    \draw[wire] (b1.east |- bar1) -- (c2.west |- bar1);
+    \draw[wire] (b1.east |- bar2) -- (c2.west |- bar2);
+    \draw[wire] (b1.east |- bar3) -- (c2.west |- bar3);
+
+    \draw[wire] (c2.east |- bar1) -- (b2.west |- bar1);
+    \draw[wire] (c2.east |- bar2) -- (b2.west |- bar2);
+    \draw[wire] (c2.east |- bar3) -- (b2.west |- bar3);
+
+    \draw[wire] (b2.east |- bar1) -- (c3.west |- bar1);
+    \draw[wire] (b2.east |- bar2) -- (c3.west |- bar2);
+    \draw[wire] (b2.east |- bar3) -- (c3.west |- bar3);
+
+    \draw[wire] (c3.east |- bar1) -- (b3.west |- bar1);
+    \draw[wire] (c3.east |- bar2) -- (b3.west |- bar2);
+    \draw[wire] (c3.east |- bar3) -- (b3.west |- bar3);
+
+    \draw[wire] (b3.east |- bar1) -- (c4.west |- bar1);
+    \draw[wire] (b3.east |- bar2) -- (c4.west |- bar2);
+    \draw[wire] (b3.east |- bar3) -- (c4.west |- bar3);
+
+    \draw[wire] (c4.east |- bar1) -- (bar1);
+    \draw[wire] (c4.east |- bar2) -- (bar2);
+    \draw[wire] (c4.east |- bar3) -- (bar3);
+
+    \draw[wire] (bar1) -- (c5.west |- bar1);
+    \draw[wire] (bar2) -- (c5.west |- bar2);
+    \draw[wire] (bar3) -- (c5.west |- bar3);
+
+    \draw[wire] (c5.east |- bar1) -- (b4.west |- bar1);
+    \draw[wire] (c5.east |- bar2) -- (b4.west |- bar2);
+    \draw[wire] (c5.east |- bar3) -- (b4.west |- bar3);
+
+    \draw[wire] (b4.east |- bar1) -- (c6.west |- bar1);
+    \draw[wire] (b4.east |- bar2) -- (c6.west |- bar2);
+    \draw[wire] (b4.east |- bar3) -- (c6.west |- bar3);
+
+    \draw[wire] (c6.east |- bar1) -- (b5.west |- bar1);
+    \draw[wire] (c6.east |- bar2) -- (b5.west |- bar2);
+    \draw[wire] (c6.east |- bar3) -- (b5.west |- bar3);
+
+    \draw[wire] (b5.east |- bar1) -- (c7.west |- bar1);
+    \draw[wire] (b5.east |- bar2) -- (c7.west |- bar2);
+    \draw[wire] (b5.east |- bar3) -- (c7.west |- bar3);
+
+    \draw[wire] (c7.east |- bar1) -- (b6.west |- bar1);
+    \draw[wire] (c7.east |- bar2) -- (b6.west |- bar2);
+    \draw[wire] (c7.east |- bar3) -- (b6.west |- bar3);
+
+    \draw[wire] (b6.east |- bar1) -- (c8.west |- bar1);
+    \draw[wire] (b6.east |- bar2) -- (c8.west |- bar2);
+    \draw[wire] (b6.east |- bar3) -- (c8.west |- bar3);
+
+    \draw[wire] (c8.east |- bar1) -- (out1);
+    \draw[wire] (c8.east |- bar2) -- (out2);
+    \draw[wire] (c8.east |- bar3) -- (out3);
+
+\end{tikzpicture}

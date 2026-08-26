@@ -1,0 +1,111 @@
+% \begin{tikzpicture}[
+%     node distance=0.5cm and 1cm,
+%     sbox/.style={rectangle, draw=black, fill=typeone, align=center, minimum width=0.5cm},
+% ]
+
+%     % Input state
+%     \node[state] (x0) at (0, 0) {};
+%     \node[state, right=of x0] (x1) {};
+%     \node[state, right=of x1] (x2) {};
+%     \node[state, right=of x2] (x3) {};
+
+%     % Round function and additions
+%     \node[sbox] (rf1) at ($(x0)!0.5!(x1) + (0,-1cm)$) {$\mathsf{F}$};
+%     \node[sbox] (rf2) at ($(x2)!0.5!(x3) + (0,-1cm)$) {$\mathsf{F}$};
+    
+%     \node[PLUS] (add1) at ($(x1 |- rf1)$) {};
+%     \node[PLUS] (add2) at ($(x3 |- rf2)$) {};
+
+%     % Linear layer
+%     \node[layerbox={(x0.west)(x3.east)}{$\M$}, below=2 cm of $(x0)!0.5!(x3)$, minimum height=0.5cm] (l) {};
+%     \node[layerbox={(x0.west)(x3.east)}{\AddRC}, below=3 cm of $(x0)!0.5!(x3)$, minimum height=0.5cm] (rc) {};
+
+%     % Output state
+%     \node[state, below=4cm of x0] (y0) {};
+%     \node[state, right=of y0] (y1) {};
+%     \node[state, right=of y1] (y2) {};
+%     \node[state, right=of y2] (y3) {};
+
+%     % Wires
+%     \draw[wire] (x0.south) -- (x0.south |- rf1.west) -- (rf1.west);
+%     \draw[wire] (x2.south) -- (x2.south |- rf2.west) -- (rf2.west);
+
+%     \draw[wire] (rf1.east) -- (add1.west);
+%     \draw[wire] (rf2.east) -- (add2.west);
+
+%     \draw[wire] (x1.south) -- (add1.north);
+%     \draw[wire] (x3.south) -- (add2.north);
+
+%     \draw[wire] (x0.south) -- (x0 |- l.north);
+%     \draw[wire] (add1.south) -- (x1 |- l.north);
+%     \draw[wire] (x2.south) -- (x2 |- l.north);
+%     \draw[wire] (add2.south) -- (x3 |- l.north);
+
+%     \draw[wire] (x0 |- l.south) -- (x0 |- rc.north);
+%     \draw[wire] (x1 |- l.south) -- (x1 |- rc.north);
+%     \draw[wire] (x2 |- l.south) -- (x2 |- rc.north);
+%     \draw[wire] (x3 |- l.south) -- (x3 |- rc.north);
+
+%     \draw[wire] (x0 |- rc.south) -- (y0);
+%     \draw[wire] (x1 |- rc.south) -- (y1);
+%     \draw[wire] (x2 |- rc.south) -- (y2);
+%     \draw[wire] (x3 |- rc.south) -- (y3);
+
+% \end{tikzpicture}
+
+% Correct version, following https://theses.hal.science/tel-05694439v1/document
+
+\begin{tikzpicture}[
+    node distance=0.5cm and 1cm,
+    sbox/.style={rectangle, draw=black, fill=typeone, align=center, minimum width=0.5cm},
+]
+
+    % Input state
+    \node[state] (x0) at (0, 1) {$x_1$};
+    \node[state, right=of x0] (x1) {$x_2$};
+    \node[state, right=of x1] (x2) {$x_3$};
+    \node[state, right=of x2] (x3) {$x_4$};
+
+    % Round function and additions
+    \node[sbox] (rf1) at ($(x1)!0.5!(x2) + (0,-0.75cm)$) {$\mathsf{F}$};
+    \node[sbox] (rf2) at ($(x2)!0.5!(x3) + (0,-1.5cm)$) {$\mathsf{F}$};
+    
+    \node[PLUS] (add1) at ($(x2 |- rf1)$) {};
+    \node[PLUS] (add2) at ($(x3 |- rf2)$) {};
+
+    % Linear layer
+    \node[layerbox={(x0.west)(x3.east)}{$\M$}, below=2 cm of $(x0)!0.5!(x3)$, minimum height=0.5cm] (l) {};
+    \node[layerbox={(x0.west)(x3.east)}{\AddRC}, below=3 cm of $(x0)!0.5!(x3)$, minimum height=0.5cm] (rc) {};
+
+    % Output state
+    \node[state, below=4.25cm of x0] (y0) {$y_1$};
+    \node[state, right=of y0] (y1) {$y_2$};
+    \node[state, right=of y1] (y2) {$y_3$};
+    \node[state, right=of y2] (y3) {$y_4$};
+
+    % Wires
+    \draw[wire] (x0.south) -- (x0.south |- rf1.west) -- (rf1.west);
+    \draw[wire] (x1.south) -- (x1.south |- rf2.west) -- (rf2.west);
+
+    \draw[wire] (rf1.east) -- (add1.west);
+    \draw[wire] (rf2.east) -- (add2.west);
+
+    \draw[wire] (x2.south) -- (add1.north);
+    \draw[wire] (x3.south) -- (add2.north);
+
+    \draw[wire] (x0.south) -- (x0 |- l.north);
+    \draw[wire] (x1.south) -- (x1 |- l.north);
+    \draw[wire] (add1.south) -- (x2 |- l.north);
+    \draw[wire] (add2.south) -- (x3 |- l.north);
+
+    \draw[wire] (x0 |- l.south) -- (x0 |- rc.north);
+    \draw[wire] (x1 |- l.south) -- (x1 |- rc.north);
+    \draw[wire] (x2 |- l.south) -- (x2 |- rc.north);
+    \draw[wire] (x3 |- l.south) -- (x3 |- rc.north);
+
+    \draw[wire] (x0 |- rc.south) -- (y0);
+    \draw[wire] (x1 |- rc.south) -- (y1);
+    \draw[wire] (x2 |- rc.south) -- (y2);
+    \draw[wire] (x3 |- rc.south) -- (y3);
+
+\end{tikzpicture}

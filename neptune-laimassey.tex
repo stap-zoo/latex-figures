@@ -1,0 +1,71 @@
+\begin{tikzpicture}
+    \pgfmathsetlengthmacro{\hdist}{1cm} % distance in cm between nodes (horizontal)
+    \pgfmathsetlengthmacro{\vdist}{5mm} % distance in cm between nodes (vertical)
+
+    % Inputs
+    \node (x0) at (0,0) {$x_1$};
+    \node[right=2*\hdist of x0] (y0) {$x_2$};
+
+    \node[MINUS, yshift=-\vdist] (m1) at ($(x0)! 0.5!(y0)$){};
+    \node[op base, below=\vdist of m1, inner sep=2pt] (s1) {$x^2$};
+    \node[op base, inner sep=2pt] (a1x) at ($(x0 |- s1)$) {$\cdot \alpha$};
+    \node[op base, inner sep=2pt] (a1y) at ($(y0 |- s1)$) {$\cdot \alpha$};
+    
+    \draw[-latex] (m1.south) -- (s1.north);
+    \draw[-latex] ($(x0 |- m1)$) -- (m1.west);
+    \draw[-latex] ($(y0 |- m1)$) -- (m1.east);
+
+    \draw[-latex] (x0.south) -- (a1x.north);
+    \draw[-latex] (y0.south) -- (a1y.north);
+
+    \node[PLUS, yshift=-\vdist] (x1) at ($(x0 |- s1.south)$) {};
+    \node[PLUS, yshift=-\vdist] (y1) at ($(y0 |- s1.south)$) {};
+
+    \draw[-latex] (a1x.south) -- (x1.north);
+    \draw[-latex] (a1y.south) -- (y1.north);
+
+    \draw[-latex] (s1.south) -- ($(s1 |- x1)$) -- (x1.east);
+    \draw[-latex] ($(s1 |- y1)$) -- (y1.west);
+
+    \node[below=\vdist of x1] (x2) {};
+    \node[below=\vdist of y1] (y2) {};
+
+    \draw[-latex] (x1.south) -- (x2.north);
+    \draw[-latex] (y1.south) -- (y2.north);
+
+    \node[below=0.5*\vdist of x2] (x3) {};
+    \node[below=0.5*\vdist of y2] (y3) {};
+
+    \draw[op base, font=\scriptsize, inner sep=2pt] ($(x2.north) - (2mm,0)$) rectangle ($(y3.south) + (2mm,0)$) node[pos=.5] {$\begin{bmatrix}
+        2 & 1 \\ 1 & 3\end{bmatrix} \times \begin{bmatrix} \cdot \\ \cdot \end{bmatrix} + \begin{bmatrix} \gamma \\ 0 \end{bmatrix}$};
+
+    \node[MINUS, yshift=-\vdist] (m2) at ($(x3.south)! 0.5!(y3.south)$){};
+    \node[op base, below=\vdist of m2, inner sep=2pt] (s2) {$x^2$};
+    \node[op base, inner sep=2pt] (a2x) at ($(x1 |- s2)$) {$\cdot \alpha$};
+    \node[op base, inner sep=2pt] (a2y) at ($(y1 |- s2)$) {$\cdot \alpha$};
+    
+    \draw[-latex] (m2.south) -- (s2.north);
+    \draw[-latex] ($(x3 |- m2)$) -- (m2.west);
+    \draw[-latex] ($(y3 |- m2)$) -- (m2.east);
+
+    \draw[-latex] (x3.south) -- (a2x.north);
+    \draw[-latex] (y3.south) -- (a2y.north);
+
+    \node[PLUS, yshift=-\vdist] (x4) at ($(x3 |- s2.south)$) {};
+    \node[PLUS, yshift=-\vdist] (y4) at ($(y3 |- s2.south)$) {};
+
+    \draw[-latex] (a2x.south) -- (x4.north);
+    \draw[-latex] (a2y.south) -- (y4.north);
+
+    \draw[-latex] (s2.south) -- ($(s2 |- x4)$) -- (x4.east);
+    \draw[-latex] ($(s2 |- y4)$) -- (y4.west);
+
+    \node[below=3*\vdist of x4] (x5) {$y_1$};
+    \node[below=3*\vdist of y4] (y5) {$y_2$};
+    \node[op base, below=\vdist of x4, inner sep=2pt] (am) {$- \alpha \cdot \gamma$};
+
+    \draw[-latex] (x4.south) -- (am.north);
+    \draw[-latex] (am.south) -- (x5.north);
+    \draw[-latex] (y4.south) -- (y5.north);
+    
+\end{tikzpicture}

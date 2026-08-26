@@ -1,0 +1,43 @@
+\begin{tikzpicture}[
+    node distance=0.4cm and 0.3cm, 
+    sbox/.append style={bbox={0.8cm}{0.8cm}},
+    state/.append style={minimum size=0.5cm},
+]
+
+    % === NODES ===
+
+    % Decomposition
+    \node[sbox, draw=none, minimum height=0.4cm] (x1) {}; 
+    \node[sbox, draw=none, minimum height=0.4cm, right=of x1] (x2) {}; 
+    \node[sbox, draw=none, minimum height=0.4cm, right=of x2] (x3) {}; 
+    \node[layerbox={(x1)(x3)}{Decompose}] (decomp) {};
+
+    % Input state
+    \node[state, above=of x2] (x) {$x$};
+
+    % S-boxes
+    \node[sbox, below=of x1] (s1) {$T$}; 
+    \node[sbox, draw=none, fill=none, below=of x2] (s2) {$\cdots$}; 
+    \node[sbox, below=of x3] (s3) {$T$}; 
+
+    % Composition
+    \node[sbox, draw=none, minimum height=0.4cm, below=of s1] (y1) {}; 
+    \node[sbox, draw=none, minimum height=0.4cm, below=of s2] (y2) {}; 
+    \node[sbox, draw=none, minimum height=0.4cm, below=of s3] (y3) {}; 
+    \node[layerbox={(y1)(y3)}{Compose}] (compose) {};
+
+    % Output state
+    \node[state, below=of compose] (y) {$y$};
+
+    % === Wires ===
+    \draw[wire] (x) -- (x2.north);
+    \draw[wire] (x1.south) -- (s1.north);
+    %\draw[wire] (x2.south) -- (s2.north);
+    \draw[wire] (x3.south) -- (s3.north);
+    \draw[wire] (s1.south) -- (y1.north);
+    %\draw[wire] (s2.south) -- (y2.north);
+    \draw[wire] (s3.south) -- (y3.north);
+    \draw[wire] (y2.south) -- (y.north);
+
+
+\end{tikzpicture}

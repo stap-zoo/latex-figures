@@ -1,0 +1,58 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% example.tex -- how to use these TikZ figures in your own document         %%%
+%%%                                                                          %%%
+%%% Every <name>.tex in this folder is a bare `tikzpicture` (no preamble).   %%%
+%%% To use one, your document's preamble needs three things:                 %%%
+%%%                                                                          %%%
+%%%   1. TikZ:              \usepackage{tikz}                                 %%%
+%%%   2. the two local      \usetikzlibrary{cipher}                          %%%
+%%%      tikz libraries     \usetikzlibrary{crypto.symbols}                  %%%
+%%%      (the files tikzlibrarycipher.code.tex and                           %%%
+%%%       tikzlibrarycrypto.symbols.code.tex must be on TeX's search path,   %%%
+%%%       e.g. in the same folder as your document)                          %%%
+%%%   3. the colors + macros the figures expect: \input{figure-macros}       %%%
+%%%      (copy its contents into your own preamble, or \input the file).     %%%
+%%%                                                                          %%%
+%%% Then drop a figure in with \input{<name>} wherever you want it.          %%%
+%%%                                                                          %%%
+%%% Compile this example directly to see it in action:                       %%%
+%%%   pdflatex example.tex                                                   %%%
+%%%                                                                          %%%
+%%% NOTE: This file is only an example and is ignored by the Makefile.       %%%
+%%% To build the figures themselves as individual cropped PDFs, use `make`   %%%
+%%% (run `make help` for the options).                                       %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% (1) + (2): TikZ and the two local libraries shipped in this folder
+\usepackage{tikz}
+\usetikzlibrary{cipher}
+\usetikzlibrary{crypto.symbols}
+
+% (3): colors (typeone..typefour) and macros (\M, \openFlystel, ...) the
+%      figures rely on. Merge these into your own preamble as needed.
+\input{figure-macros}
+
+\begin{document}
+
+% A figure placed in a float, scaled to the column width.
+\begin{figure}[ht]
+  \centering
+  \resizebox{\linewidth}{!}{\input{rc}}
+  \caption{The \textsc{Reinforced Concrete} permutation.}
+  \label{fig:poseidon}
+\end{figure}
+
+% A figure at 60% of the text width.
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.6\linewidth}{!}{\input{flystel_open}}
+  \caption{The open Flystel $\openFlystel$.}
+  \label{fig:flystel-open}
+\end{figure}
+
+\end{document}

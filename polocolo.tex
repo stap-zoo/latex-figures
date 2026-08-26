@@ -1,0 +1,87 @@
+\begin{tikzpicture}[
+    node distance=0.5cm and 0.5cm,
+]   
+    \pgfmathsetlengthmacro{\vdist}{0.5cm}
+
+    % S-Boxes
+    \node[sbox, fill=typetwo] (s1) {$x^{-1}$};
+    \node[sbox, right=of s1, fill=typefour, text height=3ex] (s2) {$\mathsf{T} \left[ \left(\frac{x}{p}\right)_m \right]$};
+    \node[sbox, right=of s2, fill=typetwo] (s3) {$x^{-1}$};
+    \node[sbox, right=of s3, fill=typefour, text height=3ex] (s4) {$\mathsf{T} \left[ \left(\frac{x}{p}\right)_m \right]$};
+    \node[right=of s4] (d1) {$\cdots$};
+    \node[sbox, right=of d1, fill=typetwo] (s5) {$x^{-1}$};
+    \node[sbox, right=of s5, fill=typefour, text height=3ex] (s6) {$\mathsf{T} \left[ \left(\frac{x}{p}\right)_m \right]$};
+
+    % Midway coordinates
+    \coordinate (mid12) at ($(s1)!0.5!(s2)$);
+    \coordinate (mid34) at ($(s3)!0.5!(s4)$);
+    \coordinate (mid56) at ($(s5)!0.5!(s6)$);
+
+    \foreach \m in {mid12,mid34,mid56} {
+        \coordinate (\m-t) at ($(\m)+(0,1.75*\vdist)$);
+        \coordinate (\m-b) at ($(\m)-(0,1.75*\vdist)$);
+    }
+
+    % Input state
+    \node[state, above=0.5*\vdist of mid12-t] (x1) {$x_1$};
+    \node[state, above=0.5*\vdist of mid34-t] (x2) {$x_2$};
+    \node[state, above=0.5*\vdist of mid56-t] (xt) {$x_t$};
+
+    % MUL symbols
+    \node[MUL] (mul12) at (mid12-b) {};
+    \node[MUL] (mul34) at (mid34-b) {};
+    \node[MUL] (mul56) at (mid56-b) {};
+    \coordinate (mid) at ($(mul12)!0.5!(mul56)$);
+
+    % Linear layer
+    \node[layerbox={(s1)(s6)}{$\M$}, below=1.25*\vdist of mid, anchor=north] (ll) {};
+
+    % PLUS symbols
+    \node[PLUS] (a1) at ($(mul12 |- ll.south) - (0,1.25*\vdist)$) {};
+    \node[PLUS] (a2) at ($(mul34 |- ll.south) - (0,1.25*\vdist)$) {};
+    \node[PLUS] (at) at ($(mul56 |- ll.south) - (0,1.25*\vdist)$) {};
+
+    % Output state
+    \node[state, below=\vdist of a1] (y1) {$y_1$};
+    \node[state, below=\vdist of a2] (y2) {$y_2$};
+    \node[state, below=\vdist of at] (yt) {$y_t$};
+
+    % Round constants
+    \node[left=of a1] (c1) {$C^{(i)}$};
+    \node[left=of a2] (c2) {};
+    \node[left=of at] (ct) {};
+
+    % === WIRES ===
+
+    % Inputs to S-Boxes
+    \draw[wire] (x1) -- (mid12-t) -| (s1.north); \draw[wire] (mid12-t) -| (s2.north);
+    \draw[wire] (x2) -- (mid34-t) -| (s3.north); \draw[wire] (mid34-t) -| (s4.north);
+    \draw[wire] (xt) -- (mid56-t) -| (s5.north); \draw[wire] (mid56-t) -| (s6.north);
+
+    % S-boxes to MUL symbols
+    \draw[wire] (s1.south) |- (mul12.west); \draw[wire] (s2.south) |- (mul12.east);
+    \draw[wire] (s3.south) |- (mul34.west); \draw[wire] (s4.south) |- (mul34.east);
+    \draw[wire] (s5.south) |- (mul56.west); \draw[wire] (s6.south) |- (mul56.east);
+
+    % MUL symbols to linear layer
+    \draw[wire] (mul12.south) -- (mul12.south |- ll.north);
+    \draw[wire] (mul34.south) -- (mul34.south |- ll.north);
+    \draw[wire] (mul56.south) -- (mul56.south |- ll.north);
+
+    % Linear layer to PLUS symbols
+    \draw[wire] (a1.north |- ll.south) -- (a1.north);
+    \draw[wire] (a2.north |- ll.south) -- (a2.north);
+    \draw[wire] (at.north |- ll.south) -- (at.north);
+
+    % PLUS symbols to output
+    \draw[wire] (a1.south) -- (y1.north);
+    \draw[wire] (a2.south) -- (y2.north);
+    \draw[wire] (at.south) -- (yt.north);
+
+    % Round constant addition
+    \draw[wire] (c1) -- (a1.west);
+    \draw[wire] (c2) -- (a2.west);
+    \draw[wire] (ct) -- (at.west);
+
+
+\end{tikzpicture}

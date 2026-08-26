@@ -1,0 +1,88 @@
+\begin{tikzpicture}[
+    node distance=0.5cm and 0.3cm, 
+    sbox/.append style={bbox={0.8cm}{0.8cm}},
+    state/.append style={minimum size=0.5cm},
+]
+
+    % === NODES ===
+
+    % Adapted forward part (F)
+    \coordinate (x0) {};
+    \foreach \i in {1,2,...,12} {
+        \pgfmathtruncatemacro{\j}{\i-1}
+        \node[state, right=of x\j] (x\i) {$x_{\i}$}; % input state
+        \node[PLUS, below=of x\i] (a1-\i) {}; % constant addition (PLUS symbols)
+        \node[sbox, draw=none, minimum height=0.35cm, below=of a1-\i] (l1-\i) {}; % linear layer placeholder
+        \node[sbox, fill=typeone, below=of l1-\i] (s1-\i) {$x^{\alpha}$}; % forward S-box layer pi_0
+    }
+    \node[layerbox={(l1-1)(l1-12)}{$\M$}] (l1) {}; % Linear layer
+
+    % Adapted backward part (B)
+    \foreach \i in {1,2,...,12} {
+        % some styling to indicate potential partial s-box layer
+        \pgfmathtruncatemacro{\ismod}{mod(\i,3)}
+        \ifnum\ismod=2
+            \def\myopacity{0.5}
+        \else
+            \def\myopacity{1}
+        \fi
+        \node[sbox, draw=none, minimum height=0.35cm, below=of s1-\i] (l2-\i) {}; % linear layer placeholder
+        \node[PLUS, below=of l2-\i] (a2-\i) {}; % constant addition (PLUS symbols)
+        \node[sbox, fill=typetwo, opacity=\myopacity, below=of a2-\i] (s2-\i) {$x^{\frac{1}{\alpha}}$}; % backward S-box layer pi_1
+    }
+    \node[layerbox={(l2-1)(l2-12)}{$\M$}] (l2) {}; % Linear layer
+
+    % P3 step with forward S-Boxes over degree-3 extension field
+    \foreach \i in {1,2,...,12} {
+        \node[PLUS, below=of s2-\i] (a3-\i) {}; % constant addition (PLUS symbols)
+        \node[sbox, draw=none, below=of a3-\i] (s3-\i) {}; % s-box placeholder
+    }
+    \foreach \i in {1,4,7,10} {
+        \pgfmathtruncatemacro{\j}{\i+2}
+        \node[layerbox={(s3-\i)(s3-\j)}{$X^\alpha$}, fill=typeone] (S3-\i) {}; % forward S-box layer pi_2
+    }
+
+    % Last MC step
+    \foreach \i in {1,2,...,12} {
+        \node[sbox, draw=none, minimum height=0.35cm, below=of s3-\i] (l3-\i) {}; % linear layer placeholder
+        \node[PLUS, below=of l3-\i] (a4-\i) {}; % constant addition (PLUS symbols)
+        \node[state, below=of a4-\i] (y\i) {$y_{\i}$}; % output state
+    }
+    \node[layerbox={(l3-1)(l3-12)}{$\M$}] (l3) {}; % Linear layer
+
+    % Round constants
+    \node[left=of a1-1] (c1) {$C^{(i)}$};
+    \node[left=of a2-1] (c2) {$C^{(i+1)}$};
+    \node[left=of a3-1] (c3) {$C^{(i+2)}$};
+    \node[left=of a4-1] (c4) {$C^{(9)}$};
+
+    % === Wires ===
+    \foreach \i in {1,2,...,12} {
+        \draw[wire] (x\i) -- (a1-\i.north);
+        \draw[wire] (a1-\i.south) -- (l1-\i.north);
+        \draw[wire] (l1-\i.south) -- (s1-\i.north);
+        \draw[wire] (s1-\i.south) -- (l2-\i.north);
+        \draw[wire] (l2-\i.south) -- (a2-\i.north);
+        \draw[wire] (a2-\i.south) -- (s2-\i.north);
+        \draw[wire] (s2-\i.south) -- (a3-\i.north);
+        \draw[wire] (a3-\i.south) -- (s3-\i.north);
+        \draw[wire] (s3-\i.south) -- (l3-\i.north);
+        \draw[wire] (l3-\i.south) -- (a4-\i.north);
+        \draw[wire] (a4-\i.south) -- (y\i.north);
+    }
+
+    \foreach \j in {1,2,3,4} {
+        \draw[wire] (c\j) -- (a\j-1.west);
+    }
+
+    % === DECORATIONS ===
+    \vbrace[above=-5pt,below=-5pt,raise=15pt]{s1-12.south}{a1-12.north}{s1-12} node[midway, right=2pt] {$(F)$};
+    \vbrace[above=-5pt,below=-5pt,raise=15pt]{s2-12.south}{l2-12.north}{s2-12} node[midway, right=2pt] {$(B)$};
+    \vbrace[above=-5pt,below=-5pt,raise=15pt]{s3-12.south}{a3-12.north}{s3-12} node[midway, right=2pt] {$(P_3)$};
+    \vbrace[above=-5pt,below=-5pt,raise=15pt]{a4-12.south}{l3-12.north}{a4-12} node[midway, right=2pt] {$(MC)$};
+
+    %\vbrace[above=2pt,below=2pt,raise=-5pt]{s1-1.north}{s1-1.south}{s1-1.west} node[midway, left=2pt] {$\pi_0$};
+    %\vbrace[above=2pt,below=2pt,raise=-5pt]{s2-1.north}{s2-1.south}{s2-1.west} node[midway, left=2pt] {$\pi_1$};
+    %\vbrace[above=2pt,below=2pt,raise=-5pt]{s3-1.north}{s3-1.south}{s3-1.west} node[midway, left=2pt] {$\pi_2$};
+
+\end{tikzpicture}
