@@ -5,11 +5,10 @@
 %%% To use one, your document's preamble needs three things:                 %%%
 %%%                                                                          %%%
 %%%   1. TikZ:              \usepackage{tikz}                                 %%%
-%%%   2. the two local      \usetikzlibrary{cipher}                          %%%
-%%%      tikz libraries     \usetikzlibrary{crypto.symbols}                  %%%
-%%%      (the files tikzlibrarycipher.code.tex and                           %%%
-%%%       tikzlibrarycrypto.symbols.code.tex must be on TeX's search path,   %%%
-%%%       e.g. in the same folder as your document)                          %%%
+%%%   2. the local          \usetikzlibrary{stap.components}                 %%%
+%%%      tikz library       (the file tikzlibrarystap.components.code.tex    %%%
+%%%                          must be on TeX's search path, e.g. in the same  %%%
+%%%                          folder as your document)                        %%%
 %%%   3. the colors + macros the figures expect: \input{figure-macros}       %%%
 %%%      (copy its contents into your own preamble, or \input the file).     %%%
 %%%                                                                          %%%
@@ -28,10 +27,9 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 
-% (1) + (2): TikZ and the two local libraries shipped in this folder
+% (1) + (2): TikZ and the local component library shipped in this folder
 \usepackage{tikz}
-\usetikzlibrary{cipher}
-\usetikzlibrary{crypto.symbols}
+\usetikzlibrary{stap.components}
 
 % (3): colors (typeone..typefour) and macros (\M, \openFlystel, ...) the
 %      figures rely on. Merge these into your own preamble as needed.

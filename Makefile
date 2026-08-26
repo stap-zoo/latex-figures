@@ -48,13 +48,13 @@
 LATEX       := pdflatex
 LATEXFLAGS  := -interaction=nonstopmode -halt-on-error
 MACROS      := figure-macros.tex
-LIBS        := tikzlibrarycipher.code.tex tikzlibrarycrypto.symbols.code.tex
+LIBS        := tikzlibrarystap.components.code.tex
 BUILDDIR    := build
 PDFDIR      := pdf
 
 # minimal standalone wrapper each figure is compiled in (kept in sync with the
 # preamble shown in example.tex). \input{<name>} is appended per figure below.
-PREAMBLE := \documentclass[border=5pt]{standalone}\usepackage{amsmath,amssymb}\usepackage{tikz}\usetikzlibrary{cipher}\usetikzlibrary{crypto.symbols}\input{$(MACROS)}
+PREAMBLE := \documentclass[border=5pt]{standalone}\usepackage{amsmath,amssymb}\usepackage{tikz}\usetikzlibrary{stap.components}\input{$(MACROS)}
 
 # let pdflatex find the macros and local tikz libraries
 export TEXINPUTS := .:$(CURDIR):$(TEXINPUTS)

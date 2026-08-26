@@ -9,7 +9,7 @@ TikZ figures for arithmetization-oriented / ZK-friendly hash functions. Each `<n
 - `pdfunite` (from poppler) — only for `make combined`
 
 ## Build
-
+ 
 **All generated pdfs go into the `pdf/` directory** (created automatically).
 
 ```sh
@@ -34,13 +34,12 @@ Your preamble needs three things (see **`example.tex`** for a working demo):
 
 ```latex
 \usepackage{tikz}
-\usetikzlibrary{cipher}          % tikzlibrarycipher.code.tex
-\usetikzlibrary{crypto.symbols}  % tikzlibrarycrypto.symbols.code.tex
+\usetikzlibrary{stap.components}  % tikzlibrarystap.components.code.tex
 \input{figure-macros}            % colors + macros the figures expect
 ```
 
-The two `tikzlibrary*.code.tex` files must be on TeX's search path (e.g. in the
-same folder). Then place a figure wherever you want it:
+The `tikzlibrarystap.components.code.tex` file must be on TeX's search path (e.g.
+in the same folder). Then place a figure wherever you want it:
 
 ```latex
 \begin{figure}
@@ -58,7 +57,7 @@ same folder). Then place a figure wherever you want it:
 | `figure-macros.tex` | colors (`typeone`–`typefour`) and macros (`\M`, `\openFlystel`, …) the figures rely on |
 | `example.tex` | example document showing how to include the figures (ignored by `make`) |
 | `Makefile` | build system |
-| `tikzlibrarycipher.code.tex`, `tikzlibrarycrypto.symbols.code.tex` | the custom TikZ libraries |
+| `tikzlibrarystap.components.code.tex` | the custom TikZ component library (S-boxes, layers, operators, wires, braces) |
 | `pdf/` | generated output pdfs (created by `make`, removed by `make distclean`) |
 | `build/` | scratch dir for `.aux`/`.log`/… during compilation (removed by `make clean`) |
 

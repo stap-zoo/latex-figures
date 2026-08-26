@@ -1,3 +1,17 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% TIKZLIBRARY stap.components %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Building blocks for drawing arithmetization-oriented / ZK-friendly          %
+%   permutations (S-boxes, linear layers, operators, wires, braces).            %
+%   Load with:  \usetikzlibrary{stap.components}                                %
+%                                                                              %
+%   Convention: operators are ALL-CAPS node styles; boxes, state, wires and    %
+%   spacers are lowercase. Figures build their own concrete styles on top of    %
+%   the base elements here (e.g. roundbox = vbox={1.2cm, fill=typeone}).        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% fit           -> layerbox auto-sizing;   calc  -> $(a)!.5!(b)$ in braces/figures
+% arrows.meta   -> wire arrow tip;         positioning -> right=of / below=of
+% decorations.pathreplacing -> \hbrace / \vbrace
 \usetikzlibrary{fit, calc, arrows.meta, positioning, decorations.pathreplacing}
 
 %%% ================================================================
@@ -5,7 +19,9 @@
 %%% ================================================================
 
 \tikzset{
+  %% shared base for all operator symbols -- inherit, don't use directly
   op base/.style={draw, minimum size=0.35cm, inner sep=0pt},
+  %% NOOP: invisible placeholder of operator size (keeps wires aligned)
   NOOP/.style={op base, draw=none, fill=none,},
   %% XOR: circle with a cross
   XOR/.style={op base, circle,
@@ -13,13 +29,13 @@
       [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
       (\tikzlastnode.north) edge (\tikzlastnode.south)
       (\tikzlastnode.east)  edge (\tikzlastnode.west)}},
-  %% AND: circle with x (boolean AND)
+  %% AND: circle with an x (boolean AND)
   AND/.style={op base, circle,
     append after command={
       [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
       (\tikzlastnode.north west) edge (\tikzlastnode.south east)
       (\tikzlastnode.north east) edge (\tikzlastnode.south west)}},
-  %% PLUS: square with + (use for any field/modular addition)
+  %% PLUS: square with + (any field/modular addition, e.g. round constants)
   PLUS/.style={op base, rectangle,
     append after command={
       [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
@@ -30,7 +46,7 @@
     append after command={
       [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
       (\tikzlastnode.east) edge (\tikzlastnode.west)}},
-  %% MUL: square with x
+  %% MUL: square with an x (field multiplication)
   MUL/.style={op base, rectangle,
     append after command={
       [shorten >=\pgflinewidth, shorten <=\pgflinewidth]
@@ -40,41 +56,50 @@
 
 
 %%% ================================================================
-%%% BOXES  (labeled function boxes, reused for S-box, F, pi, layers, ...)
+%%% BOXES  (labeled function boxes: S-box, F, pi, linear layers, ...)
 %%% ================================================================
 
 \tikzset{
-  %% semantic fill colors -- apply to any box
-  crypto role/.is choice,
-  crypto role/default/.style = {fill=gray!10},
-  crypto role/sbox/.style    = {fill=orange!15},
-  crypto role/linear/.style  = {fill=blue!10},
-  crypto role/key/.style     = {fill=green!15},
-  crypto role/perm/.style    = {fill=purple!10},
   %% base box -- inherit this, don't use directly
-  box base/.style={draw, inner sep=0.5pt, text height=2ex, align=center, crypto role=default},
+  box base/.style={draw, inner sep=0.5pt, text height=2ex, align=center, fill=gray!10},
+  %% bbox={width}{height}: box of an explicit size
   bbox/.style 2 args={box base, minimum width=#1, minimum height=#2},
-  %% square box: S-box, single-wire function, constant
+  %% sbox: square box for an S-box / single-wire function / constant
   sbox/.style={bbox={0.8cm}{0.8cm}},
-  %% layer box: sizes itself to the bounding box of a given list of nodes
-  %% usage: \node[layerbox={(a)(b)(c)}, right=of refnode] (name) {label};
-  %layerbox/.style={box base, fit={#1}},
-  layerbox/.style 2 args={box base, fit={#1}, label=center:{#2}},
-  %% convenience aliases
+  %% vbox={height}: fixed-width, custom-height box (e.g. round-function box)
   vbox/.style = {bbox={0.7cm}{#1}},
+  %% hbox={width}: fixed-height, custom-width box
   hbox/.style = {bbox={#1}{0.7cm}},
-  note/.style = {color=gray, font=\scriptsize},
+  %% layerbox={(a)(b)...}{label}: box auto-sized to the bounding box of the
+  %% listed nodes -- the idiom for a layer spanning a whole state.
+  %% usage: \node[layerbox={(l-1)(l-t)}{$\M$}, below=of ...] (name) {};
+  layerbox/.style 2 args={box base, fit={#1}, label=center:{#2}},
 }
+
+
+%%% ================================================================
+%%% SPACERS / LABELS  (invisible nodes for alignment and dots)
+%%% ================================================================
+
+\tikzset{
+  %% empty: spacer / label node (e.g. holding \dots or \vdots in a state)
+  empty/.style      = {align=center, minimum size=1cm},
+  %% emptysmall: a tighter spacer
+  emptysmall/.style = {align=center, minimum size=1mm},
+  %% note: small gray caption text (e.g. under a brace)
+  note/.style       = {color=gray, font=\scriptsize},
+}
+
 
 %%% ================================================================
 %%% STATE WIRES
 %%% ================================================================
 
 \tikzset{
-  state/.style = {
-    minimum size=0.5cm, inner sep=0pt, outer sep=0pt
-  },
-  wire/.style      = {-{Latex[length=5pt]},},
+  %% state: a state-element node (input/output value on a wire)
+  state/.style = {minimum size=0.5cm, inner sep=0pt, outer sep=0pt},
+  %% wire: directed connection with a small Latex arrow tip
+  wire/.style        = {-{Latex[length=5pt]},},
   wire dashed/.style = {wire, dashed},
 }
 
@@ -110,5 +135,3 @@
     ($(#3 -| #4)+(+\pgfkeysvalueof{/vbrace/raise},-\pgfkeysvalueof{/vbrace/below})$) --
     ($(#2 -| #4)+(+\pgfkeysvalueof{/vbrace/raise},+\pgfkeysvalueof{/vbrace/above})$)%
 }
-
-
