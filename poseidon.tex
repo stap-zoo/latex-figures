@@ -1,106 +1,85 @@
 \begin{tikzpicture}[
-  empty/.style={align=center, minimum size=1cm},
-  emptysmall/.style={align=center, minimum size=1mm},
-  sbox/.style={draw=black, fill=typeone, thick, align=center, minimum size=0.5cm},
-  layer/.style={rectangle, draw=black, fill=white, thick, align=center, minimum width=4.5cm, minimum height=0.5cm},
-  layerhighlight/.style={rectangle, dashed, draw=red, thick, align=center, minimum width=4.7cm, minimum height=0.7cm},
-  %rotate=90
-  ]
+    node distance=0.5cm and 0.5cm,
+    % concrete styles built on the library components
+    sbox/.append style={fill=typeone, thick, minimum size=0.5cm},
+    % layer={level}{label}: white full-width layer aligned with the S-box edges
+    layer/.style 2 args={
+        layerbox={($(x1 |- #1)+(-0.25,0)$)($(x5 |- #1)+(0.25,0)$)}{#2},
+        fill=white, thick, minimum height=0.5cm},
+]
+    % ===== state columns (col 3 is the dots column) =====
+    \node[state] (x1) {$x_1$};
+    \node[state, right=of x1] (x2) {$x_2$};
+    \node[state, right=of x2] (x3) {\ldots};
+    \node[state, right=of x3] (x4) {$x_{t-1}$};
+    \node[state, right=of x4] (x5) {$x_t$};
 
-  \pgfmathtruncatemacro{\statesize}{4}
-  \pgfmathtruncatemacro{\dotspos}{2}
+    % ===== vertical layout (tunable) =====
+    \def\rowstep{0.7cm} % gap between adjacent layers inside a round block
+    \def\blockgap{1.2cm} % gap between round blocks (full <-> partial spacing)
+    \def\outgap{0.9cm}   % gap from the last matrix to the output row
 
-  % Poseidon2
-  % Draw lines first, so they get overlapped later
-  \node (x1) at (3.5, 3.5) {$x_1$};
-  \node (x2) at (4.5, 3.5) {$x_2$};
-  \node at (5.5, 3.5) {\ldots};
-  \node (x3) at (6.5, 3.5) {$x_{t-1}$};
-  \node (x4) at (7.5, 3.5) {$x_t$};
+    \coordinate[below=of x1] (a1); % first AddRC below the inputs
+    \coordinate[below=\rowstep of a1] (s1);
+    \coordinate[below=\rowstep of s1] (m1);
 
-  \draw [->] (x1) -- (3.5, -0.25);
-  \draw [->] (x2) -- (4.5, -0.25);
-  \draw [->] (x3) -- (6.5, -0.25);
-  \draw [->] (x4) -- (7.5, -0.25);
+    \coordinate[below=\blockgap of m1] (a2);
+    \coordinate[below=\rowstep of a2] (s2);
+    \coordinate[below=\rowstep of s2] (m2);
 
-  \foreach \i in {0,...,\statesize}
-  {
-    \ifnum\i=\dotspos
-    \else
-      \draw [->] (3.5 + \i, -1) -- (3.5 + \i, -3.5);
-    \fi
-  }
+    \coordinate[below=\blockgap of m2] (a3);
+    \coordinate[below=\rowstep of a3] (s3);
+    \coordinate[below=\rowstep of s3] (m3);
 
-  \node (y1) at (3.5, -7) {$y_1$};
-  \node (y2) at (4.5, -7) {$y_2$};
-  \node at (5.5, -7) {\ldots};
-  \node (y3) at (6.5, -7) {$y_{t-1}$};
-  \node (y4) at (7.5, -7) {$y_t$};
+    \coordinate[below=\outgap of m3] (out);
 
-  \draw [<-] (y1) -- (3.5, -4.25);
-  \draw [<-] (y2) -- (4.5, -4.25);
-  \draw [<-] (y3) -- (6.5, -4.25);
-  \draw [<-] (y4) -- (7.5, -4.25);
+    \coordinate (d1)  at ($(m1)!0.5!(a2)$);      % vdots centred between blocks
+    \coordinate (d2)  at ($(m2)!0.5!(a3)$);
 
-  %\node[layer] at (5.5, 2.75) {$\M$};
-  %\node[layerhighlight] at (5.5, 2.75) {};
-  
-  \node[layer] at (5.5, 1.75) {\AddRC};
-  \foreach \i in {0,...,\statesize}
-  {
-    \ifnum\i=\dotspos
-        \node[empty] at (3.5 + \i, 1) {\(\dots\)};
-    \else
-        \node[sbox] at (3.5 + \i, 1) {$x^\alpha$};
-    \fi
-  }
-  \node[layer] at (5.5, 0.25) {$\M$};
-  %\node[layerhighlight] at (5.5, 0.25) {};
-  
-  \node[empty] at (5.5, -0.5) {\(\vdots\)};
+    % ===== WIRES (drawn first, covered by the white layers below) =====
+    % one straight arrow per block per column, skipping the dots column
+    \foreach \i in {1,2,4,5} {
+        \draw[wire] (x\i.south)              -- ($(x\i |- m1)+(0,-0.55)$); % block 1 (Rf)
+        \draw[wire] ($(x\i |- a2)+(0,0.45)$) -- ($(x\i |- m2)+(0,-0.55)$); % block 2 (RP)
+        \draw[wire] ($(x\i |- a3)+(0,0.45)$) -- ($(x\i |- out)+(0,0.25)$); % block 3 (Rf)
+    }
 
-  \node[layer] at (5.5, -1.5) {\AddRC};
-  %\node[layerhighlight] at (5.5, -1.5) {};
-  \foreach \i in {0,...,\statesize}
-  {
-    \ifnum\i=\dotspos
-        \node[empty] at (3.5 + \i, -2.25) {\(\dots\)};
-    \fi
-    \ifnum\i=\statesize
-        \node[sbox] at (3.5 + \i, -2.25) {$x^\alpha$};
-    \fi
-  }
-  \node[layer] at (5.5, -3) {$\M$};
-  %\node[layerhighlight] at (5.5, -3) {};
-  
-  \node[empty] at (5.5, -3.75) {\(\vdots\)};
-  
-  \node[layer] at (5.5, -4.75) {\AddRC};
-  \foreach \i in {0,...,\statesize}
-  {
-    \ifnum\i=\dotspos
-        \node[empty] at (3.5 + \i, -5.5) {\(\dots\)};
-    \else
-        \node[sbox] at (3.5 + \i, -5.5) {$x^\alpha$};
-    \fi
-  }
-  \node[layer] at (5.5, -6.25) {$\M$};
-  %\node[layerhighlight] at (5.5, -6.25) {};
-  
-  % % Braces
-  \draw [decorate, decoration={brace, amplitude=5pt, raise=5pt},yshift=0pt]
-    (7.8, 2.25) -- (7.8, -0.25) node[black, midway, xshift=0.5cm, anchor=center,rotate=-90] {\footnotesize $\Rf$ rounds};
-  \draw [decorate, decoration={brace, amplitude=5pt, raise=5pt},yshift=0pt]
-    (7.8, -1) -- (7.8, -3.5) node[black, midway, xshift=0.5cm, anchor=center,rotate=-90] {\footnotesize $\RP$ rounds};
-  \draw [decorate, decoration={brace, amplitude=5pt, raise=5pt},yshift=0pt]
-    (7.8, -4.25) -- (7.8, -6.75) node[black, midway, xshift=0.5cm, anchor=center,rotate=-90] {\footnotesize $\Rf$ rounds};
-    
-  % % Dummy invisible braces for centering
-  % \draw [decorate, decoration={brace, amplitude=5pt, raise=5pt, mirror},yshift=0pt]
-  %   (-0.8, 2.25) -- (-0.8, -0.25) node [opacity=0, black, midway, xshift=-0.3cm, anchor=east] {\footnotesize $\Rf$ rounds};
-  % \draw [decorate, decoration={brace, amplitude=5pt,raise=5pt, mirror},yshift=0pt]
-  %   (-0.8, -1) -- (-0.8, -3.5) node [opacity=0, black, midway, xshift=-0.3cm, anchor=east] {\footnotesize $\RP$ rounds};
-  % \draw [decorate, decoration={brace, amplitude=5pt,raise=5pt, mirror},yshift=0pt]
-  %   (-0.8, -4.25) -- (-0.8, -6.75) node [opacity=0, black, midway, xshift=-0.3cm, anchor=east] {\footnotesize $\Rf$ rounds};
+    % ===== LAYERS + S-BOXES (cover the wires) =====
+    % block 1 (Rf): AddRC, full S-box row, M
+    \node[layer={a1}{\AddRC}] {};
+    \foreach \i in {1,2,4,5} {\node[sbox] at (x\i |- s1) {$x^\alpha$};}
+    \node[empty] at (x3 |- s1) {\(\dots\)};
+    \node[layer={m1}{$\M$}] {};
+
+    \node[empty] at (x3 |- d1) {\(\vdots\)};
+
+    % block 2 (RP): AddRC, single S-box (last column), M
+    \node[layer={a2}{\AddRC}] {};
+    \node[sbox]  at (x5 |- s2) {$x^\alpha$};
+    \node[empty] at (x3 |- s2) {\(\dots\)};
+    \node[layer={m2}{$\M$}] {};
+
+    \node[empty] at (x3 |- d2) {\(\vdots\)};
+
+    % block 3 (Rf): AddRC, full S-box row, M
+    \node[layer={a3}{\AddRC}] {};
+    \foreach \i in {1,2,4,5} {\node[sbox] at (x\i |- s3) {$x^\alpha$};}
+    \node[empty] at (x3 |- s3) {\(\dots\)};
+    \node[layer={m3}{$\M$}] {};
+
+    % ===== output state =====
+    \node[state] at (x1 |- out) {$y_1$};
+    \node[state] at (x2 |- out) {$y_2$};
+    \node[state] at (x3 |- out) {\ldots};
+    \node[state] at (x4 |- out) {$y_{t-1}$};
+    \node[state] at (x5 |- out) {$y_t$};
+
+    % ===== round-count braces (right side) =====
+    % brace drawn top->bottom (over the box span); label centred beside it
+    \foreach \top/\bot/\lab in {a1/m1/\Rf, a2/m2/\RP, a3/m3/\Rf} {
+        \vbrace[raise=15pt, above=-0.25cm, below=-0.25cm]{x5 |- \bot}{x5 |- \top}{x5};
+        \node[gray, rotate=-90] at ($(x5 |- \top)!0.5!(x5 |- \bot)+(0.75,0)$)
+            {\footnotesize $\lab$ rounds};
+    }
 
 \end{tikzpicture}

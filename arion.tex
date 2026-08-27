@@ -12,7 +12,7 @@
     \node[state, right=of x4] (x5) {$x_t$};
 
     % Round functions
-    \node[sbox, below=0.5 of x5, fill=typetwo] (s5) {$x^{1/\alpha_2}$};
+    \node[sbox, below=0.5 of x5, fill=typetwo] (s5) {$x^{\frac{1}{\alpha_2}}$};
     \node[sbox] (s4) at ($(x4 |- s5) + (0,-0.6*\vdist)$) {$\mathsf{F}_{t-1}$};
     \node[sbox] (s3) at ($(x3 |- s4) + (0,-\vdist)$) {$\mathsf{F}_{t-2}$};
     \node       (s2) at ($(x2 |- s3) + (0,-\vdist)$) {};
